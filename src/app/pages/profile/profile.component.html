@@ -1,0 +1,615 @@
+
+    <div class="container overflow- auto">
+
+   
+
+
+
+
+  <div class="flex justify-between mx-2 md:mx-5 lg:mx-10 mt-10">
+
+  <!-- Go Back -->
+  <button (click)="goBack()"
+   class="text-sm bg-gray-100 py-1 px-4 rounded-[6px]">
+    Go Back
+  </button>
+  
+
+  <!-- Edit button -->
+  <button
+    *ngIf="!isEditOpen"
+    (click)="openEdit()"
+    class="bg-gray-200 py-1 px-5 rounded-[6px] relative md:left-[4rem] lg:left-0"
+  >
+    Edit
+  </button>
+
+  <!-- Step controls -->
+  <div *ngIf="isEditOpen" class="flex gap-2">
+    <button
+      (click)="cancelEdit()"
+      class="text-white border rounded-[10px] bg-gray-500 py-1 px-4"
+    >
+      Cancel
+    </button>
+
+    <!-- Next button (not last step) -->
+    <button
+      *ngIf="currentStep < totalSteps"
+      (click)="nextStep()"
+      class="text-white border rounded-[10px] bg-blue-600 py-1 px-4"
+    >
+      Next
+    </button>
+
+    <!-- Save button (last step only) -->
+    <button
+      *ngIf="currentStep === totalSteps"
+      (click)="save()"
+      class="text-white border rounded-[10px] bg-green-700 py-1 px-4"
+    >
+      Save
+    </button>
+  </div>
+  </div>
+
+ 
+
+
+<!-- Links and forms container -->
+<div class="mainContainer lg:flex mt-10 md:mx-5 lg:mx-10 cursor-pointer">
+
+    <div class="hidden lg:block">
+    <div class="flex flex-col h-full mt-6 w-[11rem] space-y-4">
+        <a (click)="setStep(1)">Personal Information</a>
+        <a (click)="setStep(2)">Employement Details</a>
+        <a (click)="setStep(3)">Farmily Details</a>
+        <a (click)="setStep(4)">Next Of Kins</a>
+        <a (click)="setStep(5)">Emergency Contact</a>
+        <a (click)="setStep(6)">Education Details</a>
+    </div>
+    </div>
+
+    <div class="mx-2">
+    <div class="lg:hidden block">
+        <button (click)="openMobileMenu()" class="bg-blue-600">Menu</button>
+    </div>
+
+    <div *ngIf="isMobileOpen" class="text-center lg:hidden block fixed z-10 bg-opacity-70 bg-black text-white">
+        <div class="flex flex-col h-full mt-6 w-[11rem] space-y-4 mb-4">
+        <a (click)="setStep(1); closeMobileMenu()">Personal Information</a>
+        <a (click)="setStep(2); closeMobileMenu()">Employement Details</a>
+        <a (click)="setStep(3); closeMobileMenu()">Farmily Details</a>
+        <a (click)="setStep(4); closeMobileMenu()">Next Of Kins</a>
+        <a (click)="setStep(5); closeMobileMenu()">Emergency Contact</a>
+        <a (click)="setStep(6); closeMobileMenu()">Education Details</a>
+    </div>
+    </div>
+    </div>
+
+
+    <form  #form="ngForm" class="container ">
+
+        <!-- Personal information details Step 1 -->
+        <div *ngIf="currentStep === 1" class="">
+            <!-- Details -->
+             <div class="flex">
+            <div class="bg-gray-300 mx-10 rounded-full w-[6rem] py-[2.2rem] text-center">
+                person
+            </div>
+            <div>
+                <p>{{selectedEmployee?.firstName}} {{selectedEmployee?.lastName}}</p>
+                <!-- <p class="text-[11px] px-1 text-green-700 bg-gray-100 font-bold">{{selectedEmployee.unit.name}}</p> -->
+            </div>
+        </div>
+
+   <!-- form -->
+    <div class="mt-10 mb-10 mx-10 lg:mx-10 grid md:grid-cols-2 lg:grid-cols-3 lg:gap-x-5 gap-y-6">
+        <div class="flex flex-col">
+        <label class="">First Name</label>
+        <input
+        type="text"
+        name="firstName"
+        [disabled]="!isEditOpen"
+        [(ngModel)]="selectedEmployee.firstName"
+        class="border-2 py-1 md:w-[17rem]"
+        >
+        </div>
+
+        <div class="flex flex-col">
+        <label class="">Last Name</label>
+        <input
+        type="text"
+        name="lastName"
+        [(ngModel)]="selectedEmployee.lastName"
+        class="border-2 py-1 md:w-[17rem]"
+        >
+        </div>
+
+        <div class="flex flex-col">
+        <label class="">Other Name</label>
+        <input
+        type="text"
+        name="otherName"
+        [(ngModel)]="selectedEmployee.otherName"
+        class="border-2  py-1 md:w-[17rem]"
+        >
+        </div>
+
+        <div class="flex flex-col">
+        <label class="">Date of Birth</label>
+        <input
+        type="date"
+        name="dateOfBirth"
+        [(ngModel)]="selectedEmployee.dateOfBirth"
+        class="border-2 py-1 md:w-[17rem]"
+        >
+        </div>
+
+        <div class="flex flex-col">
+        <label class="">Gender</label>
+        <select
+        name="gender"
+        [(ngModel)]="selectedEmployee.gender"
+        class="border-2 py-1 md:w-[17rem]" 
+        >
+        <option value="">Select gender</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        <option value="Other">Other</option>
+        </select>
+        </div>
+
+        <div class="flex flex-col">
+        <label class="">Nationality</label>
+        <input
+        type="text"
+        name="nationality"
+        [(ngModel)]="selectedEmployee.nationality"
+        class="border-2 py-1 md:w-[17rem]"
+        >
+        </div>
+
+        <div class="flex flex-col">
+        <label class="">Marital Status</label>
+        <select
+        name="maritalStatus"
+        [(ngModel)]="selectedEmployee.maritalStatus"
+        class="border-2 py-1 md:w-[17rem]" 
+        >
+         <option value="">Select marital status</option>
+         <option value="Single">Single</option>
+         <option value="Married">Married</option>
+         <option value="Divorced">Divorced</option>
+        </select>
+        </div>
+
+        <div class="flex flex-col">
+        <label class="">Phone Number</label>
+        <input
+        type="text"
+        name="phoneNumber"
+        [(ngModel)]="selectedEmployee.phoneNumber"
+        class="border-2 py-1 md:w-[17rem]"
+        >
+        </div>
+
+        <div class="flex flex-col">
+        <label class="">Enter Email Address</label>
+        <input
+        type="text"
+        name="email"
+        [(ngModel)]="selectedEmployee.email"
+        class="border-2 py-1 md:w-[17rem]"
+        >
+        </div>
+
+        <div class="flex flex-col">
+        <label class="">ID Type</label>
+        <input
+        type="text"
+        name="idType"
+        [(ngModel)]="selectedEmployee.idType"
+        class="border-2 py-1 md:w-[17rem]"
+        >
+        </div>
+
+        <div class="flex flex-col">
+        <label class="">ID Number</label>
+        <input
+        type="text"
+        name="idNumber"
+        [(ngModel)]="selectedEmployee.idNumber"
+        class="border-2  py-1 md:w-[17rem]"
+        >
+        </div>
+
+     <!-- <div class="flex flex-col mb-4">
+      <label>QR ID</label>
+     <input 
+     type="text" 
+     [value]="employeeData.qrId" 
+     readonly 
+     class="border-2 px-3 py-1 w-full md:w-[17rem]"
+  />
+</div> -->
+
+    </div>
+    </div>
+
+
+    <!-- Employement details Step 2 -->
+    <div class="mx-10 mt-6">
+     <div *ngIf="currentStep === 2">
+    <!-- Details -->
+     <div class="mx-10">
+         <p class="">Employment Details</p>
+         <p class="text-[10px]">Official job Information</p>   
+     </div>
+
+        <!-- form -->
+    <div class="md:mx-10 mb-10 grid md:grid-cols-2 lg:grid-cols-3 md:gap-x-[5rem] lg:gap-x-5 gap-y-6 mt-10">
+        <div class="flex flex-col">
+        <label class="mx- 10">Job Title</label>
+        <input
+        type="text"
+        name="jobTitle"
+        [(ngModel)]="selectedEmployee.jobTitle"
+        class="border-2 px-3 py-1 md:w-[17rem]"
+        >
+        </div>
+
+        <div class="flex flex-col md:w-[9rem]">
+        <label class="w">Employment Type</label>
+          <input
+        type="text"
+        name="employmentType"
+        [(ngModel)]="selectedEmployee.employmentType"
+        class="border-2 px-3 py-1 md:w-[17rem]"
+        >
+        </div>
+
+        <div class="flex flex-col">
+        <label class="">Hired Date</label>
+           <input
+        type="date"
+        name="hireDate"
+        [(ngModel)]="selectedEmployee.hireDate"
+        class="border-2 px-3 py-1 md:w-[17rem]"
+        >
+        </div>
+
+        <div class="flex flex-col">
+        <label class="">Work Location</label>
+        <input
+        type="text"
+        name="workLocation"
+        [(ngModel)]="selectedEmployee.workLocation"
+        class="border-2 px-3 py-1 md:w-[17rem]"
+        >
+        </div>
+
+        <div class="flex flex-col">
+        <label class="">Staff Id</label>
+        <input
+        type="text"
+        name="staffId"
+        [(ngModel)]="selectedEmployee.staffId"
+        class="border-2 px-3 py-1 md:w-[17rem]"
+        >
+        </div>
+
+    </div>
+    </div>
+
+
+    <!-- Family details Step 3 -->
+  <div *ngIf="currentStep === 3" class="px-4 mb-10 md:px- 10">
+
+  <!-- Header -->
+   <div class="flex justify-between">
+     <div class="">
+         <p class="">Family Details</p>
+         <p class="text-[10px]">Information for family-related benefit and records,</p>   
+     </div> 
+
+     <!-- Add more button -->
+    <div class="relative top-[-4rem] md:top-0 md:left-[7rem] lg:left-0 w-[8rem]">
+      <button (click)="addMore()" 
+      class="flex bg-blue-600 border text-white px-2 py-1 md:px-3 md:py-1 rounded-[6px] hover:bg-blue-400">
+        Add more
+      </button>
+     </div>
+     </div>   
+
+  <!-- Form -->
+  <div class="grid gap-y-6 mt-10 ">
+
+    <!-- Spouse Details -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 lg:gap-[1rem] gap-6">
+
+      <div class="flex flex-col">
+        <label class="md:w-[7rem]">Spouse's Name</label>
+        <input
+          type="text"
+          name="spouseName"
+          [(ngModel)]="selectedEmployee.spouseName"
+          class="border-2 px-3 py-1 w-full md:w-[17rem]"
+        />
+
+        <div class="mt-6">
+          <p class="font-bold">Children Information</p>
+          <p class="text-sm md:md:w-[55rem] max-w-xl">
+            Based on the total number of children entered above,
+            the same number of fields will appear below to enter
+            each child's full details.
+          </p>
+        </div>
+      </div>
+
+      <div class="flex flex-col">
+        <label class="md:w-[12rem]">Spouse's Phone Number</label>
+        <input
+          type="text"
+          name="spousePhone"
+          [(ngModel)]="selectedEmployee.spousePhone"
+          class="border-2 px-3 py-1 w-full md:w-[17rem]"
+        />
+      </div>
+
+      <div class="flex flex-col">
+        <label>Spouse's Email</label>
+        <input
+          type="text"
+          name="spouseEmail"
+          [(ngModel)]="selectedEmployee.spouseEmail"
+          class="border-2 px-3 py-1 w-full md:w-[17rem]"
+        />
+      </div>
+
+    </div>
+
+    <!-- Number of Children -->
+    <div class="flex flex-col md:w-[17rem]">
+      <label>Number of Children</label>
+      <input
+        type="text"
+        name="numberOfChildren"
+        [(ngModel)]="selectedEmployee.numberOfChildren"
+        class="border-2 px-3 py-1 w-full"
+      />
+    </div>
+
+      
+  <div *ngFor="let child of selectedEmployee.children; let i = index" 
+     class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+  <!-- Child Name -->
+  <div class="flex flex-col relative">
+    <label>Child</label>
+    <input
+      type="text"
+      [name]="'fullName' + i"
+      [(ngModel)]="child.fullName"
+      class="border-2 px-3 py-1 w-full md:w-[17rem]"
+    />
+
+    <!-- Remove Button: only for children after first -->
+    <button
+      *ngIf="i >= 1"
+      type="button"
+      (click)="removeChild(i)"
+      class="border border-red-500 bg-red-100 text-red-600 text-sm rounded-[4px] hover:text-red-800 mt-2 w-24"
+    >
+      Remove
+    </button>
+  </div>
+
+  <!-- Child DOB -->
+  <div class="flex flex-col">
+    <label>Age</label>
+    <input
+      type="date"
+      [name]="'dob' + i"
+      [(ngModel)]="child.dob"
+      class="border-2 px-3 py-1 w-full md:w-[17rem]"
+    />
+  </div>
+</div>
+</div>
+</div>
+
+
+   <!-- Next of kins Step 4 -->     
+  <div *ngIf="currentStep === 4">
+      <div class="lg:mx-10">
+         <p class="">Next of Kin</p>
+         <p class="text-[10px]">Contact in case of emergency</p>   
+     </div> 
+
+     <div class="mt-10 lg:mx-10">
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="flex flex-col">
+        <label class="flex flex-col">Full Name</label>    
+        <input
+        type="text"
+        name="nextOfKinFullName"
+        [(ngModel)]="selectedEmployee.nextOfKinFullName"
+        class="border-2 py-1 w- md:w-[17rem]"
+        >
+        </div>
+
+        <div class="flex flex-col">
+        <label class="flex flex-col">Relationship</label>    
+        <input
+        type="text"
+        name="nextOfKinRelationship"
+        [(ngModel)]="selectedEmployee.nextOfKinRelationship"
+        class="border-2 py-1 md:w-[17rem]"
+        >
+        </div>
+
+        <div class="flex flex-col">
+        <label class="flex flex-col">Phone Number</label>    
+        <input
+        type="text"
+        name="nextOfKinPhoneNumber"
+        [(ngModel)]="selectedEmployee.nextOfKinPhoneNumber"
+        class="border-2 py-1 md:w-[17rem]"
+        >
+        </div>
+        <!-- </div> -->
+
+        <div class="flex flex-col">
+        <label class="flex flex-col">Email Address</label>    
+         <input
+        type="text"
+        name="nextOfKinEmail"
+        [(ngModel)]="selectedEmployee.nextOfKinEmail"
+        class="border-2 py-1 md:w-[17rem]"
+        >
+        </div>
+
+        <div class="flex flex-col">
+        <label class="flex flex-col">Enter Current Address</label>
+        <input
+        type="text"
+        name="nextOfKinCurrentAddress"
+        [(ngModel)]="selectedEmployee.nextOfKinCurrentAddress"
+        class="border-2 py-1 md:w-[17rem]"
+        >
+        </div>
+        </div>
+
+    </div>
+  </div>
+
+
+   <!-- Emengency contact Step 5 -->
+  <div *ngIf="currentStep === 5">
+    <div class="mx-10">
+         <p class="">Emergency Contact</p>
+         <p class="text-[10px]">Contact in case of emergency</p>   
+     </div> 
+     <!-- form -->
+     <div class="mt-10">
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="flex flex-col">
+        <label class="">Full Name</label>    
+        <input
+        type="text"
+        name="emergencyContactFullName"
+        [(ngModel)]="selectedEmployee.emergencyContactFullName"
+        class="border-2 py-1 md:w-[17rem]"
+        >
+        </div>
+
+        <div class="flex flex-col">
+        <label class="">Relationship</label>    
+        <input
+        type="text"
+        name="emergencyContactRelationship"
+        [(ngModel)]="selectedEmployee.emergencyContactRelationship"
+        class="border-2 py-1 md:w-[17rem]"
+        >
+        </div>
+
+        <div class="flex flex-col">
+        <label class="">Phone Number</label>    
+        <input
+        type="text"
+        name="emergencyContactPhoneNumber"
+        [(ngModel)]="selectedEmployee.emergencyContactPhoneNumber"
+        class="border-2 py-1 md:w-[17rem]"
+        >
+        </div>
+        <!-- </div> -->
+
+        <div class="flex flex-col">
+        <label class="">Email Address</label>    
+         <input
+        type="text"
+        name="emergencyContactEmail"
+        [(ngModel)]="selectedEmployee.emergencyContactEmail"
+        class="border-2 py-1 md:w-[17rem]"
+        >
+        </div>
+
+        <div class="flex flex-col">
+        <label class="">Enter Current Address</label>
+        <input
+        type="text"
+        name="emergencyContactCurrentAddress"
+        [(ngModel)]="selectedEmployee.emergencyContactCurrentAddress"
+        class="border-2 py-1 md:w-[17rem]"
+        >
+        </div>
+        </div>
+
+    </div>
+  </div>
+
+
+   <!-- Education details Step 6 -->
+   <div *ngIf="currentStep === 6" class="">
+     <div class="mx-10">
+         <p class="">Education Background</p>
+         <p class="text-[10px]">Academic and professional qualifications.</p>   
+     </div>
+
+     <div *ngFor="let edu of selectedEmployee.educationDetails; let i = index" class="mt-10 mb-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-10">
+        <div class="flex flex-col">
+        <label class="">Institution Name</label>
+        <input
+        type="text"
+        [name]="'institutionName' + i"
+        [(ngModel)]="edu.institutionName"
+        class="border-2 py-1 md:w-[17rem]"
+        >
+        </div>
+
+        <div class="flex flex-col">
+        <label class="">Course of Study</label>
+          <input
+        type="text"
+        [name]="'courseOfStudy' + i"
+        [(ngModel)]="edu.courseOfStudy"
+        class="border-2 py-1 md:w-[17rem]"
+        >
+        </div>
+
+        <div class="flex flex-col">
+        <label class="">Start Date</label>
+           <input
+        type="date"
+        [name]="'startDate' + i"
+        [(ngModel)]="edu.startDate"
+        class="border-2 py-1 md:w-[17rem]"
+        >
+        </div>
+
+        <div class="flex flex-col">
+        <label class="">End Date</label>
+        <input
+        type="date"
+        [name]="'endDate' + i"
+        [(ngModel)]="edu.endDate"
+        class="border-2 py-1 md:w-[17rem]"
+        >
+        </div>
+
+        <!-- <div class="flex flex-col">
+        <label class="">Staff Id</label>
+        <input
+        type="text"
+        [name]="'staffId' + i"
+        [(ngModel)]="selectedEmployee.staffId"
+        class="border-2 py-1 md:w-[17rem]"
+        >
+        </div>  -->
+     </div> 
+  </div> 
+  
+  
+</div>
+</form> 

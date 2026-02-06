@@ -1,0 +1,238 @@
+
+   <div class="bg-[#001223] w-full h-[300px]  bg-[url('/bg.png')] bg-cover bg-center bg-no-repeat overflow-auto ">
+
+    <div class="flex justify-between mx-2 md:mx-10 ">
+
+               <!-- ETRANZACT LOGO -->
+    <div class="mt-6">
+        <img src="/Etz.png" class="w-[8rem] md:w-[207px] h-[67.12px]">
+    </div>
+
+      <!-- Hamburger Icon (Mobile) -->
+    <div class="md:hidden mt-[56px] relative right-[8rem] z-10">
+      <button (click)="toggleMobileMenu()" class="text-white focus:outline-none">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
+          viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+
+
+                  <!-- ROUTER LINKS -->
+     <div class=" hidden md:flex items-center text-[#FFFFFF80] mt-6 mr-20 z-50">
+   <a
+        routerLink="crmdashboard"
+        routerLinkActive="text-[#FFFFFF]"
+        [routerLinkActiveOptions]="{ exact: false }"
+        class="block text-[#FFFFFF80] py-2 px-4 rounded-md hover:text-white"
+         
+        >Dashboard</a
+      >
+
+      <a
+        routerLink="manageticket"
+        routerLinkActive="text-[#FFFFFF]"
+        [routerLinkActiveOptions]="{ exact: false }"
+        class="block text-[#FFFFFF80] py-2 px-4 rounded-md hover:text-white whitespace-nowrap"
+         
+        >Manage ticket
+      </a>
+
+      <a
+        routerLink="resource"
+        routerLinkActive="text-[#FFFFFF]"
+        [routerLinkActiveOptions]="{ exact: false }"
+        class="block text-[#FFFFFF80] py-2 px-4 rounded-md hover:text-white">
+
+         Resource
+      </a>
+
+       <a
+        routerLink="crmtools"
+        routerLinkActive="text-[#FFFFFF]"
+        [routerLinkActiveOptions]="{ exact: false }"
+        class="block text-[#FFFFFF80] py-2 px-4 rounded-md hover:text-white">
+
+         Tools
+      </a>
+
+      <!-- Notification button -->
+      <div class="flex gap-2 mx-5">
+        <button (click)="openNotificationModal()">
+          <img src="/notificationbell.png" class="md:w-[30px] md:h-[20px] lg:w-[21.51px] lg:h-[21.51px] ">
+          <div></div>
+        </button>
+       <div class="  text-white text-[12px] flex justify-center items-center bg-red-500 rounded-full w-8 h-4 lg:w-4 lg:h-4 relative md:right-4 lg:right-5 top-[-6px]"> 
+          {{ unreadCount }}
+    </div>
+   </div>
+
+      <!-- tools dropdown -->
+    <button (click)="routeToTools()" class="hover:text-white text-white whitespace-nowrap">
+      toolbox
+      <span class="material-symbols-outlined text-white text-[15px] ">
+        construction
+    </span>
+    </button>
+      
+      </div> 
+     
+
+  <!-- Mobile Menu -->
+   
+   <!-- <button *ngIf="mobileMenuOpen" (click)="closeMobileMenu()"></button> -->
+  <div *ngIf="mobileMenuOpen" class="fixed z-10 left-[13rem] py-10 mb-6 text-[20px] text-center md:hidden bg-white mx-2 mt-20 px-4 pb-4 space-y-2">
+    <a routerLink="crmdashboard" routerLinkActive="text-blue-500" (click)="closeMobileMenu()" class="block hover:text-blue- 500 transition">Dashboard</a>
+    <a routerLink="manageticket" routerLinkActive="text-blue-500" (click)="closeMobileMenu()" class="block hover:text-blue-500 ">Manage Ticket</a>
+    <a routerLink="resource" routerLinkActive="text-blue-500" (click)="closeMobileMenu()" class="block hover:blue-blue-600">Resource</a>
+    <a routerLink="crmtools" routerLinkActive="text-blue-500" [routerLinkActiveOptions]="{ exact: false }"
+        class="block py-2 px-4 rounded-md">
+
+         Tools
+      </a>
+   
+      <button (click)="routeToTools()" class="relative md:left-14">
+      toolbox
+      <span class="material-symbols-outlined text-[15px] ">
+        construction
+    </span>
+    </button>
+  </div>
+  </div>
+
+   <!-- Notification button for mobile screen -->
+     <div class="flex justify-end md:hidden mt-[-40px] ">
+      <div class="flex gap-2 mx- 5">
+        <button (click)="openNotificationModal()">
+          <img src="/notificationbell.png" class="w-[28px] h-[28px] ">
+          <div></div>
+        </button>
+       <div class="  text-white text-[12px] flex justify-center items-center bg-red-500 rounded-full w-6 h-6  relative right-5 top-[-6px]"> 
+          {{ unreadCount }}
+    </div>
+   </div>
+   </div>
+
+ <!-- </div> -->
+
+      <!-- LINE -->
+      <hr class="border-t-2 border-[#4E6F8D] mx-2 md:mx-10 mt-10" />
+
+  
+      <!-- Notification button -->
+    <button (click)="isNotificationOpen = !isNotificationOpen" class="relative">
+      <span class="material-symbols-outlined text-2xl">notifications</span>
+   </button>
+
+
+   <div *ngIf="isNotificationOpen"
+      class="fixed inset-0 bg-black/40 flex justify-center items-start z-50"
+      (click)="isNotificationOpen = false">
+
+    <div class="bg-white w-[26rem] mt-16 rounded-xl shadow-xl"
+          (click)="$event.stopPropagation()">
+
+        <!-- Header -->
+        <div class="flex justify-between items-center mt-5 px-4 py-3 border-b">
+          <h2 class="font-semibold">Notifications</h2>
+      
+          <!-- Mark all as read -->
+        <div class="flex py-1 border border-black rounded-full px-2">
+          <button class="text-xs text-blue-500 border border-black rounded-full px-7" (click)="markAllAsRead()">
+            Mark all as read
+          </button>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="flex border-b">
+      <button *ngFor="let tab of filterTabs"
+              (click)="currentFilter = tab; applyFilter()"
+              class="flex-1 py-2 text-sm"
+              [ngClass]="{
+                'border-b-2 border-blue-500 font-semibold': currentFilter === tab,
+                'text-gray-500': currentFilter !== tab
+              }">
+        {{ tab | titlecase }}
+      </button>
+    </div>
+  
+    <!-- List -->
+    <div class="max-h-[22rem] overflow-y-auto">
+
+      <div *ngFor="let date of filteredNotificationsByDate | keyvalue: dateDescOrder">
+        <h3 class="px-4 pt-3 text-xs text-gray-400 font-medium">
+          {{ date.key }}
+        </h3>
+
+        <div *ngFor="let notif of date.value"
+             (click)="markAsRead(notif)"
+             class="px-4 py-3 border-b hover:bg-gray-50 transition cursor-pointer"
+             [ngClass]="{ 'opacity-60': notif.isRead }">
+
+          <div class="flex justify-between gap-3">
+
+            <div class="flex-1">
+              <p class="text-sm font-semibold">
+                {{ notif.title }}
+              </p>
+
+              <p class="text-xs text-gray-500 whitespace-pre-line">
+                {{ notif.message }}
+              </p>
+
+              <p class="text-[11px] text-gray-400 mt-1">
+                {{ notif.createdAt | date:'MMM d, y • h:mm a' }}
+              </p>
+            </div>
+
+            <span *ngIf="!notif.isRead"
+              class="w-2 h-2 bg-blue-500 rounded-full mt-1">
+            </span>
+
+          </div>
+        </div>
+      </div>
+    
+          <p *ngIf="!hasNotifications"
+            class="text-center py-8 text-gray-400">
+            You have no notifications
+         </p>
+
+    </div>
+  </div>
+</div>
+
+
+
+<div *ngFor="let date of filteredNotificationsByDate | keyvalue: dateDescOrder">
+  <div *ngFor="let notif of date.value">
+
+    <div
+      *ngIf="showAlert"
+      class="fixed top-5 right-0 bg-blue-600 text-white w-[20rem] px-4 py-3 rounded shadow z-50
+             transform transition-all duration-1000 ease-in-out"
+      [ngClass]="alertVisible 
+        ? 'translate-x-0 opacity-100' 
+        : 'translate-x-full opacity-0'"
+    >
+      {{ notif.message }}
+    </div>
+
+  </div>
+</div>
+ 
+
+
+
+
+
+
+
+  </div>
+
+
+<router-outlet></router-outlet>
+

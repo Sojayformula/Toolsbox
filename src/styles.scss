@@ -1,1 +1,133 @@
 /* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 3px dotted black;
+  border-style: solid solid dotted dotted;
+  border-radius: 50%;
+  display: inline-block;
+  position: relative;
+  box-sizing: border-box;
+  animation: rotation 2s linear infinite;
+}
+.loader::after {
+  content: '';  
+  box-sizing: border-box;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  border: 3px dotted #FF3D00;
+  border-style: solid solid dotted;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  animation: rotationBack 1s linear infinite;
+  transform-origin: center center;
+}
+    
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+} 
+@keyframes rotationBack {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-360deg);
+  }
+} 
+
+
+
+
+
+    //  PAGINATION //
+nz-pagination {
+  display: inline-block !important;
+  white-space: nowrap !important;
+  margin-top: 30px;
+//  margin-bottom: 10px;
+}
+
+
+.ant-pagination-item {
+  display: inline-flex !important;
+  justify-content: center;
+  align-items: center;
+  width: 32px;
+  height: 32px;
+  font-size: 14px;
+  border-radius: 4px;
+  padding: 0;
+  line-height: 1;
+  text-align: center;
+   cursor: pointer;
+   border: 2px solid black;
+    border-color: black !important;
+    margin-right: 10px;
+}
+
+
+.ant-pagination-item-active {
+  background-color: #3b82f6 !important; 
+  border-color: #3b82f6 !important;
+  color: white !important;
+}
+
+.ant-pagination-prev, .ant-pagination-next {
+  display: inline-block !important;
+  font-size: 16px;
+  color: #1e293b; 
+}
+
+.ant-pagination-prev:hover, .ant-pagination-next:hover {
+  color: #3b82f6; 
+}
+
+.ant-pagination-item:hover{
+  color: #3b82f6; 
+  background-color: #80acf3;
+}
+
+
+
+
+// Success and Error alert  #f0fdf4 bord #10b981
+ .ant-notification-topRight .ant-notification-notice {
+  display: block !important;
+  position: fixed !important;
+  top: 24px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  min-width: 300px;
+//   background-color: #fde8e8;
+//   border-left: 4px solid #f5b5b5 ;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.ant-notification-notice-close {
+  position: absolute !important;
+  top: 12px;
+  right: 12px;
+}
+
+.ant-notification-close-icon {
+  font-size: 16px;
+  color: #b91c1c;
+}

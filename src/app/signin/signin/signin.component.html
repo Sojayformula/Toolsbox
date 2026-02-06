@@ -1,0 +1,113 @@
+
+<div class="flex flex-col justify-center items-center mt-8 mb-10 ">
+   
+  <!-- Etranzact logo -->
+       <div class="w-12 h-12 rounded-full shadow-[0_0_20px_rgba(0,0,0,0.35)] overflow-hidden">
+  <img src="/FrameE.png" class="w-full h-full object-cover">
+</div>
+
+
+    <div class="text-[24.45px] text-[#2A343A] font-bold">
+        Sign In To Your Account.
+    </div>
+
+    <small class="text-[#7C7C7C]">
+        Enter your email and password
+    </small>
+
+  <!-- Page loader -->
+    <div *ngIf="isLoading" class="flex gap-4 justify-center relative top-[1rem] ">
+      <span class="loader"></span>
+   </div>
+
+
+    <div >
+   <form #form="ngForm" (ngSubmit)="onSubmit()"> 
+     <div class="mt-">
+    <label for="email" class="text-[#7C7C7C] mt-3 block text-[15px]">Email</label>
+    <input
+      type="email"
+      name="email"
+      [(ngModel)]="loginModelData.email"
+      #emailField="ngModel"
+      required
+      placeholder="Example@email.com"
+      class="text-[#7C7C7C] border border-[#D7D7D7] bg-[#F2F2F2] w-[350px] lg:w-[412px] py-2 h- [55px] rounded-[10px] mt-1 px-5   
+         focus:outline-none
+         focus:ring-2 focus:ring-blue-500/60
+         transition-shadow duration-300
+         hover:ring-1 hover:ring-blue-400/40"
+    />
+    <div *ngIf="emailField.errors?.['required'] && emailField.touched" class="text-red-500">
+        password is required.
+      </div>
+
+    
+      <div *ngIf="emailField.errors?.['email'] && !emailField.errors?.['required'] && emailField.touched">
+        Enter a valid password.
+      </div>
+  </div>
+  
+     <div class="mt-6">
+    <label for="password" class="text-[#7C7C7C] mt-3 block text-[15px]">Password:</label>
+    <input
+      
+      type="password"
+      name="password"
+      [type]="show ? 'text' : 'password'"
+      [(ngModel)]="loginModelData.password"
+      #passwordField="ngModel"
+      required
+      placeholder="****************"
+      class="text-[#7C7C7C] border-2 border-[#D7D7D7] bg-[#F2F2F2] w-[350px] lg:w-[412px] py-2 h- [55px] rounded-[10px] mt-1 px-5
+         focus:outline-none
+         focus:ring-2 focus:ring-blue-500/60
+         transition-shadow duration-300
+         hover:ring-1 hover:ring-blue-400/40"
+    /> 
+
+     <div class="relative right-6">
+        <button type="button" (click)="show = !show" class="absolute right-2 top-[-30px] text-gray-500 ">
+          <img *ngIf="!show" src="/invisible.png"  class="w-5 h-5" />
+          <img *ngIf="show" src="/visible.png" class="w-5 h-5" />
+        </button>
+      </div> 
+
+     <div *ngIf="passwordField.errors?.['required'] && passwordField.touched" class="text-red-500">
+        password is required.
+      </div>
+    
+      <div *ngIf="passwordField.errors?.['email'] && !passwordField.errors?.['required'] && passwordField.touched">
+        Enter a valid password.
+      </div>
+   </div>
+  
+                    <!-- checkbox -->
+    <div class="flex justify-between mx-2 mt-4 ">
+      <div class="flex space-x-2">
+      <input
+      type="checkbox"
+      lass="peer hidden"
+      />
+     
+      <span class="text-[#7C7C7C]">Remember me</span>
+    </div>   
+
+              <!-- Forgot password -->
+       <div  class="forgot-password text-[#7C7C7C]">
+        <a (click)="forgotPassword()" class="cursor-pointer">Forgot Password?</a>
+      </div> 
+    </div>  
+  
+    <button *ngIf="!isLoading"
+      type="submit"
+      [disabled]="form.invalid"
+      class="disabled:bg-blue-200 font-semibold font-outfit bg-[linear-gradient(to_right,_#5FA3FF,_#4393FF)] text-white y text-[16px] px-4 py-2 h- [55px] rounded-[10px] mt-6 w-full"
+    >
+    Login
+    </button>
+
+   </form>
+</div>
+
+</div>

@@ -1,0 +1,855 @@
+<div class="container">
+
+     <div class="flex justify-between mx-2 md:mx-5 lg:mx-10 mt-10">
+
+  <!-- Go Back -->
+  <button (click)="goBack()"
+   class="text-sm bg-gray-100 py-6 md:py-1 px-6 md:px-4 rounded-[6px] text-[30px] md:text-[16px]">
+    Go Back
+  </button>
+
+
+  <!-- Step controls *ngIf="isEditOpen"-->
+  <div  class="flex gap-2">
+    <button
+      (click)="prevStep()"
+       *ngIf="currentStep > 1"
+      class="text-[35px] md:text-[14px] text-white border rounded-[10px] bg-gray-500 px-10 md:py-1 md:px-4"
+    >
+      Previous
+    </button>
+
+    <!-- Next button (not last step) -->
+    <button
+      *ngIf="currentStep < totalSteps"
+      (click)="nextStep()"
+      class="text-[35px] md:text-[14px] text-white border rounded-[10px] bg-blue-600 px-10 md:py-1 md:px-4"
+    >
+      Next
+    </button>
+
+    <!-- Save button (last step only) -->
+    <button
+      *ngIf="currentStep === totalSteps"
+      (click)="onSubmit(form)"
+      class="text-[35px] md:text-[14px] text-white border rounded-[10px] bg-green-700 px-10 py-1 md:px-4"
+    >
+      Save
+    </button>
+  </div>
+  </div>
+
+ 
+
+
+<!-- Links and forms container -->
+<div class="mainContainer lg:flex mt-10 md:mx-5 lg:mx-10 cursor-pointer">
+
+    <div class="hidden lg:block">
+    <div class="flex flex-col h-full mt-6 w-[11rem] space-y-4">
+        <a (click)="setStep(1)">Personal Information</a>
+        <a (click)="setStep(2)">Employement Details</a>
+        <a (click)="setStep(3)">Farmily Details</a>
+        <a (click)="setStep(4)">Next Of Kins</a>
+        <a (click)="setStep(5)">Emergency Contact</a>
+        <a (click)="setStep(6)">Education Details</a>
+    </div>
+    </div>
+
+    <!-- Mobile menu button -->
+    <div class="mx-2">
+    <div class="lg:hidden block">
+        <button (click)="openMobileMenu()" class="text-[35px] md:text-[14px] text-white bg-blue-600 px-[10px]">Menu</button>
+    </div>
+
+    <!-- Mobile links -->
+    <div *ngIf="isMobileOpen" class="text-center text-[35px] px-[5rem] lg:hidden block fixed z-10 bg-opacity-70 bg-black text-white">
+        <div class="flex flex-col h-full mt-6 w-[11rem] space-y-4 mb-4">
+        <a (click)="setStep(1); closeMobileMenu()">Personal Information</a>
+        <a (click)="setStep(2); closeMobileMenu()">Employement Details</a>
+        <a (click)="setStep(3); closeMobileMenu()">Farmily Details</a>
+        <a (click)="setStep(4); closeMobileMenu()">Next Of Kins</a>
+        <a (click)="setStep(5); closeMobileMenu()">Emergency Contact</a>
+        <a (click)="setStep(6); closeMobileMenu()">Education Details</a>
+    </div>
+    </div>
+    </div>
+
+
+    <form #form="ngForm" class="container">
+
+        <!-- Personal information details Step 1 -->
+        <div *ngIf="currentStep === 1" class="">
+            <!-- Details -->
+             <div class="flex mt-10 md:mt-6">
+            <div class="bg-gray-300 mx-10 rounded-full w-[6rem] py-[2.2rem] text-center">
+                person
+            </div>
+            <!-- <div>
+                <p>{{selectedEmployee.firstName}} {{selectedEmployee.lastName}}</p>
+                <p class="text-[11px] px-1 text-green-700 bg-gray-100 font-bold">{{selectedEmployee.unit.name}}</p>
+            </div> -->
+        </div>
+
+        <!-- form -->
+    <div class="mt-10 mb-10 mx-10 lg:mx-10 grid md:grid-cols-2 lg:grid-cols-3 lg:gap-x-5 gap-y-6">
+        <div class="flex flex-col">
+        <label class="text-[35px] md:text-[16px]">First Name</label>
+        <input
+        type="text"
+        name="firstName"
+        [(ngModel)]="employeeData.firstName"
+        (keypress)="allowOnlyLetters($event)"
+        #firstName = 'ngModel'
+        required
+        class="border-2 py-4 md:py-1 px-4 md:w-[17rem] text-[35px] md:text-[16px]"
+        >
+
+        <p *ngIf="firstName.invalid && (firstName.touched || firstName.dirty)" class="text-[38px] md:text-[16px] text-red-500 text-sm">
+          First name is required
+        </p>
+        </div>
+
+        <div class="flex flex-col">
+        <label class="text-[35px] md:text-[16px]">Last Name</label>
+        <input
+        type="text"
+        name="lastName"
+        [(ngModel)]="employeeData.lastName"
+        (keypress)="allowOnlyLetters($event)"
+        #lastName = 'ngModel'
+        required
+        class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
+        >
+
+        <p *ngIf="lastName.invalid && (lastName.touched || lastName.dirty)" class="text-[38px] md:text-[16px] text-red-500 text-sm">
+          Last name is required
+        </p>
+        </div>
+
+        <div class="flex flex-col">
+        <label class="text-[35px] md:text-[16px]">Other Name</label>
+        <input
+        type="text"
+        name="otherName"
+        [(ngModel)]="employeeData.otherName"
+        (keypress)="allowOnlyLetters($event)"
+        #otherName = 'ngModel'
+        required
+        class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
+        >
+
+        <p *ngIf="otherName.invalid && (otherName.touched || otherName.dirty)" class="text-[38px] md:text-[16px] text-red-500 text-sm">
+          Other name is required
+        </p>
+        </div>
+
+        <div class="flex flex-col">
+        <label class="text-[35px] md:text-[16px]">Date of Birth</label>
+        <input
+        type="date"
+        name="dateOfBirth"
+        [(ngModel)]="employeeData.dateOfBirth"
+        #dateOfBirth = 'ngModel'
+        required
+        class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
+        >
+
+        <p *ngIf="dateOfBirth.invalid && (dateOfBirth.touched || dateOfBirth.dirty)" class="text-[38px] md:text-[16px] text-red-500 text-sm">
+          Date ot birth is required
+        </p>
+        </div>
+
+        <div class="flex flex-col">
+        <label class="text-[35px] md:text-[16px]">Gender</label>
+        <select
+        name="gender"
+        [(ngModel)]="employeeData.gender"
+        #gender = 'ngModel'
+        required
+        class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]" 
+        >
+        <option value="">Select gender</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        <option value="Other">Other</option>
+        </select>
+
+         <p *ngIf="gender.invalid && (gender.touched || gender.dirty)" class="text-[38px] md:text-[16px] text-red-500 text-sm">
+          Gender is required
+        </p>
+        </div>
+
+        <div class="flex flex-col">
+        <label class="text-[35px] md:text-[16px]">Nationality</label>
+        <input
+        type="text"
+        name="nationality"
+        [(ngModel)]="employeeData.nationality"
+        (keypress)="allowOnlyLetters($event)"
+        #nationality = 'ngModel'
+        required
+        class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
+        >
+
+         <p *ngIf="nationality.invalid && (nationality.touched || nationality.dirty)" class="text-[38px] md:text-[16px] text-red-500 text-sm">
+          Nationality is required
+        </p>
+        </div>
+
+        <div class="flex flex-col">
+        <label class="text-[35px] md:text-[16px]">Marital Status</label>
+        <select
+        name="maritalStatus"
+        [(ngModel)]="employeeData.maritalStatus"
+        #maritalStatus = 'ngModel'
+        required
+        class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]" 
+        >
+         <option value="">Select marital status</option>
+         <option value="Single">Single</option>
+         <option value="Married">Married</option>
+         <option value="Divorced">Divorced</option>
+        </select>
+
+        <p *ngIf="maritalStatus.invalid && (maritalStatus.touched || maritalStatus.dirty)" class="text-[38px] md:text-[16px] text-red-500 text-sm">
+          Marital status is required
+        </p>
+        </div>
+
+        <div class="flex flex-col">
+        <label class="text-[35px] md:text-[16px]">Phone Number</label>
+        <input
+        type="text"
+        name="phoneNumber"
+        [(ngModel)]="employeeData.phoneNumber"
+        (keypress)="allowNumbersOnly($event)"
+        #phoneNumber = 'ngModel'
+        required
+        class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
+        >
+
+        <p *ngIf="phoneNumber.invalid && (phoneNumber.touched || phoneNumber.dirty)" class="text-[38px] md:text-[16px] text-red-500 text-sm">
+          Phone number is required
+        </p>
+        </div>
+
+        <div class="flex flex-col">
+        <label class="text-[35px] md:text-[16px]">Enter Email Address</label>
+        <input
+        type="text"
+        name="email"
+        [(ngModel)]="employeeData.email"
+        #email = 'ngModel'
+        required
+        class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
+        >
+
+         <p *ngIf="email.invalid && (email.touched || email.dirty)" class="text-[38px] md:text-[16px] text-red-500 text-sm">
+          Email is required
+        </p>
+        </div>
+
+        <div class="flex flex-col">
+        <label class="text-[35px] md:text-[16px]">ID Type</label>
+        <input
+        type="text"
+        name="idType"
+        [(ngModel)]="employeeData.idType"
+        #idType = 'ngModel'
+        required
+        class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
+        >
+
+          <p *ngIf="idType.invalid && (idType.touched || idType.dirty)" class="text-[38px] md:text-[16px] text-red-500 text-sm">
+          ID type is required
+        </p>
+        </div>
+
+        <div class="flex flex-col">
+        <label class="text-[35px] md:text-[16px]">ID Number</label>
+        <input
+        type="text"
+        name="idNumber"
+        [(ngModel)]="employeeData.idNumber"
+        #idNumber = 'ngModel'
+        required
+        class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
+        >
+
+          <p *ngIf="idNumber.invalid && (idNumber.touched || idNumber.dirty)" class="text-[38px] md:text-[16px] text-red-500 text-sm">
+          ID number is required
+        </p>
+        </div>
+
+     <!-- <div class="flex flex-col mb-4">
+      <label>QR ID</label>
+     <input 
+     type="text" 
+     [value]="employeeData.qrId" 
+     readonly 
+     class="border-2 px-3 py-1 w-full md:w-[17rem]"
+  />
+</div> -->
+
+    </div>
+    </div>
+
+
+    <!-- Employement details Step 2 -->
+    <div class="mx-10 mt-6">
+     <div *ngIf="currentStep === 2">
+    <!-- Details -->
+     <div class="mx-10">
+         <p class="">Employment Details</p>
+         <p class="text-[10px]">Official job Information</p>   
+     </div>
+
+        <!-- form -->
+    <div class="md:mx-10 mb-10 grid md:grid-cols-2 lg:grid-cols-3 md:gap-x-[5rem] gap-y-6 mt-10">
+        <div class="flex flex-col">
+        <label class="text-[35px] md:text-[16px]">Job Title</label>
+        <input
+        type="text"
+        name="jobTitle"
+        [(ngModel)]="employeeData.jobTitle"
+        (keypress)="allowOnlyLetters($event)"
+        #jobTitle = 'ngModel'
+        required
+        class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
+        >
+
+         <p *ngIf="jobTitle.invalid && (jobTitle.touched || jobTitle.dirty)" class="text-[38px] md:text-[16px] text-red-500 text-sm">
+          Job title is required
+        </p>
+        </div>
+
+        <div class="flex flex-col md:w-[12rem]">
+        <label class="text-[35px] md:text-[16px]">Employment Type</label>
+          <input
+        type="text"
+        name="employmentType"
+        [(ngModel)]="employeeData.employmentType"
+        (keypress)="allowOnlyLetters($event)"
+        #employmentType = 'ngModel'
+        required
+        class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
+        >
+
+          <p *ngIf="employmentType.invalid && (employmentType.touched || employmentType.dirty)" class="text-[38px] md:text-[16px] text-red-500 text-sm md:w- [12rem]">
+          Employment type is required
+        </p>
+        </div>
+
+        <div class="flex flex-col">
+        <label class="text-[35px] md:text-[16px]">Hired Date</label>
+           <input
+        type="date"
+        name="hireDate"
+        [(ngModel)]="employeeData.hireDate"
+        #hireDate = 'ngModel'
+        required
+        class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
+        >
+
+         <p *ngIf="hireDate.invalid && (hireDate.touched || hireDate.dirty)" class="text-[38px] md:text-[16px] text-red-500 text-sm">
+          Hire date is required
+        </p>
+        </div>
+
+        <div class="flex flex-col">
+        <label class="text-[35px] md:text-[16px]">Work Location</label>
+        <input
+        type="text"
+        name="workLocation"
+        [(ngModel)]="employeeData.workLocation"
+        (keypress)="allowOnlyLetters($event)"
+        #workLocation = 'ngModel'
+        required
+        class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
+        >
+
+          <p *ngIf="workLocation.invalid && (workLocation.touched || workLocation.dirty)" class="text-[38px] md:text-[16px] text-red-500 text-sm">
+          Work locatione is required
+        </p>
+        </div>
+
+        <div class="flex flex-col">
+        <label class="text-[35px] md:text-[16px]">Staff Id</label>
+        <input
+        type="text"
+        name="staffId"
+        [(ngModel)]="employeeData.staffId"
+        #staffId = 'ngModel'
+        required
+        class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
+        >
+
+        <p *ngIf="staffId.invalid && (staffId.touched || staffId.dirty)" class="text-[38px] md:text-[16px] text-red-500 text-sm">
+          Staff Id is required
+        </p>
+        </div>
+
+          <!-- ROLE -->
+        <div>
+           <label class="text-[35px] md:text-[16px]">Role</label>
+          <select [(ngModel)]="employeeData.role" name="role" 
+           class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
+          required>
+            <option value="">Select Role</option>
+            <option value="6811fecd820e0f28b3ac8365">Engineer</option>
+            <option value="683715d0a625599a499493ba">CTO</option>
+          </select>
+        </div>
+
+    </div>
+    </div>
+
+
+    <!-- Family details Step 3 -->
+  <div *ngIf="currentStep === 3" class="px-4 mb-10 md:px- 10">
+
+  <!-- Header -->
+   <div class="flex justify-between">
+     <div class="">
+         <p class="">Family Details</p>
+         <p class="text-[10px]">Information for family-related benefit and records,</p>   
+     </div> 
+
+     <!-- Add more button -->
+    <div class="relative top-[-4rem] md:top-0 md:left-[7rem] lg:left-0 md:w-[8rem]">
+      <button (click)="addMore()" 
+      class="flex bg-blue-600 border text-[35px] md:text-[14px] text-white px-6  py-1 md:px-3 md:py-1 rounded-[6px] hover:bg-blue-400">
+        Add more
+      </button>
+     </div>
+     </div>   
+
+  <!-- Form -->
+  <div class="grid gap-y-6 mt-10 ">
+
+    <!-- Spouse Details -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 lg:gap-[4rem] gap-6">
+
+      <div class="flex flex-col">
+        <label class="text-[35px] md:text-[16px] md:w-[7rem]">Spouse's Name</label>
+        <input
+          type="text"
+          name="spouseName"
+          [(ngModel)]="employeeData.spouseName"
+          (keypress)="allowOnlyLetters($event)"
+           #spouseName = 'ngModel'
+           required
+          class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 w-full md:w-[17rem]"
+        />
+
+        <p *ngIf="spouseName.invalid && (spouseName.touched || spouseName.dirty)" class="text-[38px] md:text-[16px] text-red-500 text-sm">
+          Spouse name is required
+        </p>
+
+        <div class="mt-6">
+          <p class="font-bold">Children Information</p>
+          <p class="text-sm md:md:w-[55rem] max-w-xl">
+            Based on the total number of children entered above,
+            the same number of fields will appear below to enter
+            each child's full details.
+          </p>
+        </div>
+      </div>
+
+      <div class="flex flex-col">
+        <label class="text-[35px] md:text-[16px] md:w-[12rem]">Spouse's Phone Number</label>
+        <input
+          type="text"
+          name="spousePhone"
+          [(ngModel)]="employeeData.spousePhone"
+          (keypress)="allowNumbersOnly($event)"
+          #spousePhone = 'ngModel'
+          required
+          class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 w-full md:w-[17rem]"
+        />
+
+        <p *ngIf="spousePhone.invalid && (spousePhone.touched || spousePhone.dirty)" class="text-[38px] md:text-[16px] text-red-500 text-sm">
+          Spouse phone number is required
+        </p>
+      </div>
+
+      <div class="flex flex-col">
+        <label class="text-[35px] md:text-[16px]">Spouse's Email</label>
+        <input
+          type="text"
+          name="spouseEmail"
+          [(ngModel)]="employeeData.spouseEmail"
+          #spouseEmail="ngModel"
+          required
+          class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 w-full md:w-[17rem]"
+        />
+
+          <p *ngIf="spouseEmail.invalid && (spouseEmail.touched || spouseEmail.dirty)" class="text-[38px] md:text-[16px] text-red-500 text-sm">
+          Spouse email is required
+        </p>
+      </div>
+
+    </div>
+
+    <!-- Number of Children -->
+    <div class="flex flex-col md:w-[17rem]">
+      <label class="text-[35px] md:text-[16px]">Number of Children</label>
+      <input
+        type="text"
+        name="numberOfChildren"
+        [(ngModel)]="employeeData.numberOfChildren"
+        (keypress)="allowNumbersOnly($event)"
+        #numberOfChildren="ngModel"
+        required
+        class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 w-full"
+      />
+
+        <p *ngIf="numberOfChildren.invalid && (numberOfChildren.touched || numberOfChildren.dirty)" class="text-[38px] md:text-[16px] text-red-500 text-sm">
+          Number of children is required
+        </p>
+    </div>
+
+      
+  <div *ngFor="let child of employeeData.children; let i = index" 
+     class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+  <!-- Child Name -->
+   <div class="flex gap-4">
+  <div class="flex flex-col">
+    <label class="text-[35px] md:text-[16px]">Child</label>
+    <input
+      type="text"
+      [name]="'fullName' + i"
+      [(ngModel)]="child.fullName"
+      (keypress)="allowOnlyLetters($event)"
+      #fullName="ngModel"
+      required
+      class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 w-full md:w-[17rem]"
+    />
+
+      <p *ngIf="fullName.invalid && (fullName.touched || fullName.dirty)" class="text-[38px] md:text-[16px] text-red-500 text-sm">
+          Child full name is required
+        </p>
+
+    <!-- Remove Button: only for children after first -->
+    <button
+      *ngIf="i >= 1"
+      type="button"
+      (click)="removeChild(i)"
+      class="border border-red-500 bg-red-100 text-red-600 text-sm rounded-[4px] hover:text-red-800 mt-2 w-24"
+    >
+      Remove
+    </button>
+  </div>
+
+  <!-- Child DOB -->
+  <div class="flex flex-col">
+    <label class="text-[35px] md:text-[16px]">Age</label>
+    <input
+      type="date"
+      [name]="'dob' + i"
+      [(ngModel)]="child.dob"
+      (keypress)="allowNumbersOnly($event)"
+      #date="ngModel"
+      required
+      class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 w-full md:w-[17rem]"
+    />
+
+    <p *ngIf="date.invalid && (date.touched || date.dirty)" class="text-[38px] md:text-[16px] text-red-500 text-sm">
+          Date is required
+        </p>
+  </div>
+  </div>
+
+</div>
+</div>
+</div>
+
+
+   <!-- Next of kins Step 4 -->     
+  <div *ngIf="currentStep === 4">
+      <div class="lg:mx-10">
+         <p class="">Next of Kin</p>
+         <p class="text-[10px]">Contact in case of emergency</p>   
+     </div> 
+
+     <div class="mt-10">
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div class="flex flex-col">
+        <label class="text-[35px] md:text-[16px]">Full Name</label>    
+        <input
+        type="text"
+        name="nextOfKinFullName"
+        [(ngModel)]="employeeData.nextOfKinFullName"
+        (keypress)="allowOnlyLetters($event)"
+        #nextOfKinFullName="ngModel"
+        required
+        class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
+        >
+
+        <p *ngIf="nextOfKinFullName.invalid && (nextOfKinFullName.touched || nextOfKinFullName.dirty)" class="text-[38px] md:text-[16px] text-red-500 text-sm">
+          Next of kin full name is required
+        </p>
+        </div>
+
+        <div class="flex flex-col">
+        <label class="text-[35px] md:text-[16px]">Relationship</label>    
+        <input
+        type="text"
+        name="nextOfKinRelationship"
+        [(ngModel)]="employeeData.nextOfKinRelationship"
+        (keypress)="allowOnlyLetters($event)"
+        #nextOfKinRelationship="ngModel"
+        required
+        class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
+        >
+
+         <p *ngIf="nextOfKinRelationship.invalid && (nextOfKinRelationship.touched || nextOfKinRelationship.dirty)" class="text-[38px] md:text-[16px] text-red-500 text-sm">
+          Next of kin Relationship is required
+        </p>
+        </div>
+
+        <div class="flex flex-col">
+        <label class="text-[35px] md:text-[16px]">Phone Number</label>    
+        <input
+        type="text"
+        name="nextOfKinPhoneNumber"
+        [(ngModel)]="employeeData.nextOfKinPhoneNumber"
+        (keypress)="allowNumbersOnly($event)"
+        #nextOfKinPhoneNumber="ngModel"
+        required
+        class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
+        >
+
+        <p *ngIf="nextOfKinPhoneNumber.invalid && (nextOfKinPhoneNumber.touched || nextOfKinPhoneNumber.dirty)" class="text-[38px] md:text-[16px] text-red-500 text-sm">
+          Next of kin phone number is required
+        </p>
+        </div>
+        <!-- </div> -->
+
+        <div class="flex flex-col">
+        <label class="text-[35px] md:text-[16px]">Email Address</label>    
+         <input
+        type="text"
+        name="nextOfKinEmail"
+        [(ngModel)]="employeeData.nextOfKinEmail"
+        #nextOfKinEmail="ngModel"
+        required
+        class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
+        >
+
+         <p *ngIf="nextOfKinEmail.invalid && (nextOfKinEmail.touched || nextOfKinEmail.dirty)" class="text-[38px] md:text-[16px] text-red-500 text-sm">
+          Next of kin email is required
+        </p>
+        </div>
+
+        <div class="flex flex-col">
+        <label class="text-[35px] md:text-[16px]">Enter Current Address</label>
+        <input
+        type="text"
+        name="nextOfKinCurrentAddress"
+        [(ngModel)]="employeeData.nextOfKinCurrentAddress"
+        #nextOfKinCurrentAddress = 'ngModel'
+        required
+        class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
+        >
+
+        <p *ngIf="nextOfKinCurrentAddress.invalid && (nextOfKinCurrentAddress.touched || nextOfKinCurrentAddress.dirty)" class="text-[38px] md:text-[16px] text-red-500 text-sm">
+          Next of kin current address is required
+        </p>
+        </div>
+        </div>
+
+    </div>
+  </div>
+
+
+   <!-- Emengency contact Step 5 -->
+  <div *ngIf="currentStep === 5">
+    <div class="mx-10">
+         <p class="">Emergency Contact</p>
+         <p class="text-[10px]">Contact in case of emergency</p>   
+     </div> 
+     <!-- form -->
+     <div class="mt-10">
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="flex flex-col">
+        <label class="text-[35px] md:text-[16px]">Full Name</label>    
+        <input
+        type="text"
+        name="emergencyContactFullName"
+        [(ngModel)]="employeeData.emergencyContactFullName"
+        (keypress)="allowOnlyLetters($event)"
+        #emergencyContactFullName = 'ngModel'
+        required 
+        class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
+        >
+
+        <p *ngIf="emergencyContactFullName.invalid && (emergencyContactFullName.touched || emergencyContactFullName.dirty)" class="text-[38px] md:text-[16px] text-red-500 text-sm">
+          Full name is required
+        </p>
+        </div>
+
+        <div class="flex flex-col">
+        <label class="text-[35px] md:text-[16px]">Relationship</label>    
+        <input
+        type="text"
+        name="emergencyContactRelationship"
+        [(ngModel)]="employeeData.emergencyContactRelationship"
+        (keypress)="allowOnlyLetters($event)"
+        #emergencyContactRelationship = 'ngModel'
+        required
+        class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
+        >
+
+        <p *ngIf="emergencyContactRelationship.invalid && (emergencyContactRelationship.touched || emergencyContactRelationship.dirty)" class="text-[38px] md:text-[16px] text-red-500 text-sm">
+          Relationship is required
+        </p>
+        </div>
+
+        <div class="flex flex-col">
+        <label class="text-[35px] md:text-[16px]">Phone Number</label>    
+        <input
+        type="text"
+        name="emergencyContactPhoneNumber"
+        [(ngModel)]="employeeData.emergencyContactPhoneNumber"
+        (keypress)="allowNumbersOnly($event)"
+        #emergencyContactPhoneNumber = 'ngModel'
+        required
+        class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
+        >
+
+        <p *ngIf="emergencyContactPhoneNumber.invalid && (emergencyContactPhoneNumber.touched || emergencyContactPhoneNumber.dirty)" class="text-[38px] md:text-[16px] text-red-500 text-sm">
+          Phone number is required
+        </p>
+        </div>
+        <!-- </div> -->
+
+        <div class="flex flex-col">
+        <label class="text-[35px] md:text-[16px]">Email Address</label>    
+         <input
+        type="text"
+        name="emergencyContactEmail"
+        [(ngModel)]="employeeData.emergencyContactEmail"
+        #emergencyContactEmail = 'ngModel'
+        required
+        class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
+        >
+
+        <p *ngIf="emergencyContactEmail.invalid && (emergencyContactEmail.touched || emergencyContactEmail.dirty)" class="text-[38px] md:text-[16px] text-red-500 text-sm">
+          Email is required
+        </p>
+        </div>
+
+        <div class="flex flex-col">
+        <label class="text-[35px] md:text-[16px]">Enter Current Address</label>
+        <input
+        type="text"
+        name="emergencyContactCurrentAddress"
+        [(ngModel)]="employeeData.emergencyContactCurrentAddress"
+        #emergencyContactCurrentAddress = 'ngModel'
+        required
+        class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
+        >
+
+        <p *ngIf="emergencyContactCurrentAddress.invalid && (emergencyContactCurrentAddress.touched || emergencyContactCurrentAddress.dirty)" class="text-[38px] md:text-[16px] text-red-500 text-sm">
+          Current address is required
+        </p>
+        </div>
+        </div>
+
+    </div>
+  </div>
+
+
+   <!-- Education details Step 6 -->
+  <div *ngIf="currentStep === 6" class="">
+     <div class="mx-10">
+         <p class="">Education Background</p>
+         <p class="text-[10px]">Academic and professional qualifications.</p>   
+     </div>
+
+     <div *ngFor="let edu of employeeData.educationDetails; let i = index" class="mt-10 mb-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="flex flex-col">
+        <label class="text-[35px] md:text-[16px]">Institution Name</label>
+        <input
+        type="text"
+        [name]="'institutionName' + i"
+        [(ngModel)]="edu.institutionName"
+        (keypress)="allowOnlyLetters($event)"
+        class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
+        >
+        </div>
+
+        <div class="flex flex-col">
+        <label class="text-[35px] md:text-[16px]">Course of Study</label>
+          <input
+        type="text"
+        [name]="'courseOfStudy' + i"
+        [(ngModel)]="edu.courseOfStudy"
+        (keypress)="allowOnlyLetters($event)"
+        class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
+        >
+        </div>
+
+        <div class="flex flex-col">
+        <label class="text-[35px] md:text-[16px]">Start Date</label>
+           <input
+        type="date"
+        [name]="'startDate' + i"
+        [(ngModel)]="edu.startDate"
+        class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
+        >
+        </div>
+
+        <div class="flex flex-col">
+        <label class="text-[35px] md:text-[16px]">Institution Name</label>
+        <input
+        type="text"
+        [name]="'institutionName' + i"
+        [(ngModel)]="edu.institutionName"
+        (keypress)="allowOnlyLetters($event)"
+        class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
+        >
+        </div>
+
+        <div class="flex flex-col">
+        <label class="text-[35px] md:text-[16px]">End Date</label>
+        <input
+        type="date"
+        [name]="'endDate' + i"
+        [(ngModel)]="edu.endDate"
+        (keypress)="allowNumbersOnly($event)"
+        class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
+        >
+        </div>
+
+        <div class="flex flex-col">
+        <label class="text-[35px] md:text-[16px]">Start Date</label>
+            <input
+        type="date"
+        [name]="'startDate' + i"
+        [(ngModel)]="edu.startDate"
+        (keypress)="allowNumbersOnly($event)"
+        class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
+        >
+        </div>
+
+        <div class="flex flex-col">
+        <label class="text-[35px] md:text-[16px]">Staff Id</label>
+        <input
+        type="text"
+        name="staffId"
+        [(ngModel)]="employeeData.staffId"
+        class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
+        >
+        </div>
+
+     </div>
+  </div>
+
+</div>
+</form> 
+</div>
+</div>

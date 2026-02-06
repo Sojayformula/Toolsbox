@@ -1,0 +1,242 @@
+   <!-- Place holder text and create place holder button -->
+    <div class="mt-10 md:mx-10">
+
+      <!-- Add Contact button -->
+      <div class="flex justify-between">
+         <div class="font-semibold text-[20px]">Contacts</div>
+         <div class="">
+          <button (click)="openAddModal()" class="bg-green-600 text-white px-4 py-1 rounded">
+            Add Contact
+          </button>
+         </div>
+      </div>
+
+
+
+
+
+       <!-- Add contact modal -->
+       <div *ngIf="isAddModal" class="bg-black/50 fixed inset-0 z-10">
+        <div class="flex justify-center">
+          <div class="bg-white rounded-lg mt-[6rem] w-[25rem] h-[28rem]">
+            <div class="mt- 20">
+                <div class="flex justify-between mx-5 mt-10">
+                  <div class="text-[16px] font-semibold">Create Contact</div>
+                  <button (click)="closeAddModal()" 
+                  class="text-[12px] bg-[#BDBCBC] w-[20.91px]  h-[21.48px] flex justify-center items-center rounded-[4px] font-semibold">
+                    x
+                  </button>
+                 </div>
+                 <hr class="bg-[#E1E1E1] py-[0.5px]">
+
+                 <!-- Form -->
+                   <form #form="ngForm" (ngSubmit)="createContact()">
+                    <div class="mx-5 space-y-6 mt-6">
+                      <!-- Name -->
+                    <div class="flex flex-col">
+                      <label>Name</label>
+                      <input
+                      type="text"
+                      name="name" 
+                      [(ngModel)]="createContactModel.name"                   
+                      placeholder="Enter name"
+                      class="px-4 py-1 border border-[#D4D4D4] rounded-[5px] focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      >
+                      </div>
+
+                      <!-- Email -->
+                      <div class="flex flex-col">
+                      <label>Email</label>
+                      <input
+                      type="text"
+                      name="email"
+                      [(ngModel)]="createContactModel.email"                      
+                      placeholder="Enter email"
+                      class="px-4 py-1 border border-[#D4D4D4] rounded-[5px] focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      >
+                      </div>
+
+                      <!-- Phone number -->
+                       <div class="flex flex-col">
+                      <label>Phone number</label>
+                      <input
+                      type="text"
+                      name="phone" 
+                      [(ngModel)]="createContactModel.phone"                     
+                      placeholder="Enter phone"
+                      class="px-4 py-1 border border-[#D4D4D4] rounded-[5px] focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      >
+                      </div>
+
+                      </div>
+
+                      <hr class="bg-[#E1E1E1] mt-10 py-[0.5px]">
+
+
+                   <div class="flex gap-2 justify-end mt-6 mx-5">
+                     <button type="submit" class="bg-gray-800 text-white rounded-[6px] px-3 py-2">
+                       Save Changes
+                     </button>
+                   </div>
+              </form>  
+          </div>
+        </div>
+       </div>
+       </div>
+      
+         
+
+
+       <!-- Delete Modal -->
+ <div *ngIf="showDeleteModal" (click)="deleteModalClose()" class="bg-black/50 fixed inset-0 ">
+    <div class="flex justify-center mt-[10rem]">
+      <div class=" bg-white w-[25rem] h-[15rem] rounded-[10px]">
+            <div class="flex justify-center mt-6 font-bold">
+              Delete contact?
+            </div>
+
+          <div class="flex justify-center relative top-[10px]">
+          <div class="flex justify-center items-center bg-red-100 rounded-full w-10 h-10">
+           <span  class="material-symbols-outlined fle x  justify-center text-red-600 text-[25px]">
+               delete
+           </span>
+          </div>
+        </div>
+
+        <div class="mt-5">
+          <div class="flex justify-center mx-10">
+            Are you sure you want to delete this contact? 
+            This action cannot be undone.
+           </div>
+           <div class="flex gap-2 justify-end mt-8 mx-5">
+              <button (click)="deleteModalClose()" 
+             class="bg-gray-600 text-white rounded px-4 py-1">
+             Cancel
+            </button>
+
+             <button (click)="submitDelete()" class="bg-red-500 text-white rounded-4 px-4 py-1">
+             Delete
+            </button>
+           </div>
+        </div>
+      </div> 
+    </div>
+ </div>
+
+
+
+
+  <!-- Edit contact modal -->
+       <div *ngIf="isEditModal" class="bg-black/50 fixed inset-0 z-10">
+        <div class="flex justify-center">
+          <div class="bg-white rounded-lg mt-[6rem] w-[25rem] h-[28rem]">
+            <div class="mt- 20">
+                <div class="flex justify-between mx-5 mt-10">
+                  <div class="text-[16px] font-semibold">Edit Contact</div>
+                  <button (click)="isEditModalClose()" 
+                  class="text-[12px] bg-[#BDBCBC] w-[20.91px]  h-[21.48px] flex justify-center items-center rounded-[4px] font-semibold">
+                    x
+                  </button>
+                 </div>
+                 <hr class="bg-[#E1E1E1] py-[0.5px]">
+
+                 <!-- Form -->
+                   <form #form="ngForm" (ngSubmit)="onSubmit()">
+                    <div class="mx-5 space-y-6 mt-6">
+                      <!-- Name -->
+                    <div class="flex flex-col">
+                      <label>Name</label>
+                      <input
+                      type="text"
+                      name="name" 
+                      [(ngModel)]="contactModel.name"                   
+                      placeholder="Enter name"
+                      class="px-4 py-1 border border-[#D4D4D4] rounded-[5px] focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      >
+                      </div>
+
+                      <!-- Email -->
+                      <div class="flex flex-col">
+                      <label>Email</label>
+                      <input
+                      type="text"
+                      name="email"
+                      [(ngModel)]="contactModel.email"                      
+                      placeholder="Enter email"
+                      class="px-4 py-1 border border-[#D4D4D4] rounded-[5px] focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      >
+                      </div>
+
+                      <!-- Phone number -->
+                       <div class="flex flex-col">
+                      <label>Phone number</label>
+                      <input
+                      type="text"
+                      name="phone" 
+                      [(ngModel)]="contactModel.phone"                     
+                      placeholder="Enter phone"
+                      class="px-4 py-1 border border-[#D4D4D4] rounded-[5px] focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      >
+                      </div>
+
+                      </div>
+
+                      <hr class="bg-[#E1E1E1] mt-10 py-[0.5px]">
+
+
+                    <div class="flex gap-2 justify-end mt-6 mx-5">
+                      <button type="submit" class="bg-gray-800 text-white rounded-[6px] px-3 py-2">
+                        Save Changes
+                      </button>
+                   </div>
+                  </form> 
+                    
+          </div>
+        </div>
+       </div>
+       </div>
+
+
+
+  <!-- Page loader -->
+    <div *ngIf="isLoading" class="flex gap-4 justify-center">
+      <span class="loader"></span>
+   </div>
+
+
+
+       <div class="mt-10 md:mt-10 overflow-auto">
+        <table class="w-full">
+            <thead class="bg-[#00203D] text-white text-[10px] md:text-[12px]">
+                <tr class="text-left">
+                    <th class="p-2 rounded-tl-[10px]">Name</th>
+                    <th class="p-2">Email</th>
+                    <th class="p-2">Phone Number</th> 
+                    <th class="p-2 rounded-tr-[10px]">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of contactData">
+                    <td class="p-2">{{item.name}}</td>
+                    <td class="p-2">{{item.email}}</td>
+                    <td class="p-2">{{item.phone || 'N/A'}}</td>
+                    <td class="p-2">
+                       <div class="flex"> 
+                      <button (click)="deleteModalOpen(item._id)">
+                         <span  class="material-symbols-outlined text-red-500">
+                           delete
+                         </span>
+                       </button>
+
+                      <button (click)="isEditModalOpen(item._id)">
+                         <span class="material-symbols-outlined text-blue-500">
+                            stylus_note
+                         </span>
+                      </button>
+                      </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+

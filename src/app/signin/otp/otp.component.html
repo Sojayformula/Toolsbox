@@ -1,0 +1,59 @@
+
+<div class="mt-[3rem] relative top-[rem] mx-2 z-10">
+    <div class="flex flex-col items-center">
+        <div>
+            <img src="/FrameE2.png" class="w-[53px] h-[54px]">
+        </div>
+        <div >
+        <p class="text-[26px] font-bold">Enter the six digits</p>
+        <small class="text-[#7C7C7C]">Enter otp to verify</small>
+    </div>
+    
+    </div>
+<div class="flex space-x-2 justify-center mt-4">
+    <input *ngFor="let digit of otp; let i = index; trackBy: trackByIndex"
+           #otpInput
+           type="text"
+           maxlength="1"
+           [name]="'otp' + i"  
+           class="w-12 h-12 text-center text-xl border-2 rounded-[10px]"
+           [(ngModel)]="otp[i]"
+           (input)="onInput($event, i)"
+           (keydown)="onKeyDown($event, i)"
+          />   
+  </div>
+
+  <div class="flex justify-center items-center">
+    <button (click)="submitOtp()" class="mt-4 w-[604px] h-[60px] bg-blue-500 hover:bg-blue-400 text-white rounded-[10px] z-10">
+        Submit OTP
+      </button>
+  </div> 
+</div>  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
+<div class="flex justify-center mt-20">
+<input *ngFor="let digit of otp; let i = index; trackBy: trackByIndex"
+type="text"
+maxlength="6"
+[name]="'otp' + i"
+#otpInput
+[(ngModel)]="otp[i]"
+(input)="onOtpInput($event, i)"
+class="w-12 h-12 text-center text-xl border-2 rounded-[10px]"        
+>
+</div> -->
+
+<!--  -->

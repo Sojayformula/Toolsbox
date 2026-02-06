@@ -1,0 +1,416 @@
+
+
+   <div class="top-0 left-0 bg-[url('/backdrop3.png')] bg-cover bg-no-repeat bg-center h-[28rem] w-[52rem] max-w-ful lg:w-full absolute ">
+  <div
+    class="bg-[url('/Rectangle12.png')] bg-cover bg-no-repeat bg-center h-full absolute w-[52rem] max-w-full md:w-full top-[-15px] "
+  >
+    <div  class="flex justify-between items-center py-[7rem] md:py-0 md:mt-8 mx-10 md:mx-10 h-[100px] md:h-[48px]">
+
+            <!-- Left logo  -->
+      <div
+        class="flex items-center justify-center bg-white rounded-full border-red-500 border w-16 h-16 md:w-12 md:h-12"
+      >
+        <img src="/FrameE3.png" class="w-[40.53px] h-[40.81px] md:w-[32px] md:h-[32px]" alt="Logo" />
+      </div>
+
+        <!-- Navigation links   -->
+      <div class="hidden md:flex space-x-2 sm:space-x-4">
+        <a 
+          routerLink="dashboard"
+          routerLinkActive="bg-[#F3F3F16E] border border-white"
+          class="text-white border-transparent w-[80px] sm:w-[96px] h-[34px] sm:h-[38px] flex items-center justify-center rounded-[11px] text-sm sm:text-base"
+          >Dashboard</a
+        >
+
+        <a
+          routerLink="tools"
+          routerLinkActive="bg-[#F3F3F16E] border border-white"
+          class="text-white border-transparent w-[80px] sm:w-[96px] h-[34px] sm:h-[38px] flex items-center justify-center rounded-[11px] text-sm sm:text-base"
+          >Tools</a
+        >
+
+        <a
+          routerLink="page1"
+          routerLinkActive="bg-[#F3F3F16E] border border-white"
+          class="text-white border-transparent w-[80px] sm:w-[96px] h-[34px] sm:h-[38px] flex items-center justify-center rounded-[11px] text-sm sm:text-base"
+          >Staff</a
+        >
+
+        <a
+          routerLink="unit"
+          routerLinkActive="bg-[#F3F3F16E] border border-white"
+          class="text-white border-transparent w-[80px] sm:w-[96px] h-[34px] sm:h-[38px] flex items-center justify-center rounded-[11px] text-sm sm:text-base"
+          >Unit</a>
+      </div>
+
+     
+      <!--  Mobile hamburger -->
+      <button (click)="openMobile()"
+        class="md:hidden text-white p-2 focus:outline-none"
+        aria-label="Open Menu"
+      > 
+        <svg
+          class="w-16 h-16"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+
+
+      <!--  Mobile screen -->
+    <div *ngIf="isMobileOpen" class="md:hidden bg-black/80 fixed z-10 mt-[35rem] left-[22rem]">
+      <div  class="flex flex-col gap-y-4 items-center px-20 py-20 text-[45px]">
+        <a routerLink="/dashboard" (click)="closeobile()" class="text-white">Dashboard</a>
+        <a routerLink="/tools" (click)="closeobile()" class="text-white">Tools</a>
+        <a routerLink="/page1" (click)="closeobile()" class="text-white">Staff</a>
+        <a routerLink="/unit" (click)="closeobile()" class="text-white">Unit</a>
+     </div>
+    </div>
+
+
+     <!-- notification button -->
+      <div class="flex md:gap-2 gap-4">
+        <div class="">
+        <button (click)="openNotificationModal()" >
+          <img src="/bell.png" class="w-16 h-16 md:w-[46px] md:h-[46px]" alt="Notifications" />
+
+                <p class="text-white text-[9px] flex justify-center items-center bg-red-500 rounded-full w-3 h-3 relative left-[35px] md:left-[24px] top-[-3.48rem] md:top-[-2.60rem]">
+        {{ unreadCount }}
+            </p>
+        </button>
+ 
+        </div>
+
+        <!-- Profile button -->
+         <div>
+        <button  (click)="profilePage()">
+          <img src="/Group1.png" class="w-16 h-16 md:w-[46px] md:h-[46px]" alt="Logout" />
+        </button>
+        </div>
+
+          <!-- Logout -->
+        <div class="bg-gray-400 rounded-full w-16 h-16  md:w-[46px] md:h-[46px]">
+          <button (click)="openLogoutModal()">
+            <span class="flex justify-center items-center material-symbols-outlined h-[4rem] w-[4.50rem] md:h-[3rem] md:w-[3rem]  text-[#FFFFFF] relative left-">logout</span>
+            </button>
+        </div>
+      </div>
+    </div>
+
+
+
+    
+<!-- Notification modal -->
+<div *ngIf="isNotificationOpen"
+  class="fixed inset-0 bg-black/40 flex justify-center items-start z-50"
+  (click)="closeNotificationModal()"
+>
+  <div (click)="$event.stopPropagation()"
+ class="bg-white w-[35rem] mx-2 mt-20 rounded shadow-lg">
+
+    <!-- Header -->
+    <!-- <div class="flex justify-between items-center px-4 py-3 border-b">
+      <h2 class="font-semibold">Notifications</h2>
+      <button (click)="closeNotificationModal()">✕</button>
+    </div> -->
+
+    <!-- Tabs -->
+    <!-- <div class="flex border-b">
+      <button
+        *ngFor="let tab of tabs"
+        (click)="setTab(tab)"
+        class="flex-1 py-2 text-sm"
+        [ngClass]="{
+          'border-b-2 border-blue-500 font-semibold': activeTab === tab,
+          'text-gray-500': activeTab !== tab
+        }"
+      >
+        {{ tab | titlecase }}
+      </button>
+    </div> -->
+
+    <!-- Actions -->
+    <!-- <button
+      class="text-xs text-blue-500 px-4 py-2"
+      (click)="markAllAsRead()"
+    >
+      Mark all as read
+    </button> -->
+
+    <!-- List -->
+    <div class="max-h-[30rem] overflow-y-auto">
+
+      <!-- <div
+        *ngFor="let item of filtered"
+        (click)="markAsRead(item)"
+        class="px-4 py-3 cursor-pointer border-b"
+        [ngClass]="{
+          'bg-gray-100 text-gray-400': item.isRead,
+          'bg-white text-black font-medium': !item.isRead
+        }"
+      >
+        <p class="text-sm">{{ item.title }}</p>
+        <p class="text-xs text-gray-500">{{ item.message }}</p>
+      </div> -->
+
+      <!-- reopen -->
+      <!-- <div *ngFor="let date of filteredNotificationsByDate | keyvalue: dateDescOrder">
+       <div
+        *ngFor="let notif of date.value"
+        (click)="markAsRead2(notif)"
+        class="px-4 py-3 cursor-pointer border-b"
+        [ngClass]="{
+          'bg-gray-100 text-gray-400': notif.isRead,
+          'bg-white text-black font-medium': !notif.isRead
+        }"
+      >
+        <p class="text-sm">{{ notif.title }}</p>
+        <p class="text-xs text-gray-500">{{ notif.message }}</p>
+      </div>
+      </div>  -->
+
+     
+
+
+        <!-- notification.component.html -->
+         <div class="text-2xl font-semibold mx-10 mt-10">
+           Notification
+         </div>
+       
+        <div class="flex justify-between mt-8 mx-10">
+        <button (click)="currentFilter='all'; applyFilter()" class="text-gray-400 "
+        [ngClass]="{
+      'text-gray-500 font-semibold border-b-2 border-blue-500 w-[6rem]': currentFilter === 'all',
+      'text-gray-500': currentFilter !== 'all'
+    }"
+        >
+          All
+        </button>
+
+        <button (click)="currentFilter='unread'; applyFilter()" class="text-gray-400"
+           [ngClass]="{
+      'text-gray-500 font-semibold border-b-2 border-blue-500 w-[6rem]': currentFilter === 'unread',
+      'text-gray-500': currentFilter !== 'all'
+    }"
+        >
+          Unread
+        </button>
+
+        <button (click)="currentFilter='read'; applyFilter()" class="text-gray-400"
+           [ngClass]="{
+      'text-gray-500 font-semibold border-b-2 border-blue-500 w-[6rem]': currentFilter === 'read',
+      'text-gray-500': currentFilter !== 'all'
+    }"
+        >
+          Read
+        </button>
+      </div>
+
+     
+      <hr class="w-full"/>
+   
+
+      <div class="mx-10">
+      <div *ngFor="let date of filteredNotificationsByDate | keyvalue: dateDescOrder">
+        <h3 class="mt-4 mb-2 text-gray-400 font-medium">{{ date.key }}</h3>
+
+        <div *ngFor="let notif of date.value" class="border-b last:border-b-0 py-2 flex items-start justify-between">
+          <div>
+            <a [routerLink]="notif.link" (click)="markAsRead2(notif)" class="block">
+              <p class="font-semibold" [ngClass]="{'text-gray-400': notif.isRead}">{{ notif.title }}</p>
+              <p class="text-gray-600 text-sm" [ngClass]="{'text-gray-400': notif.isRead}">
+                {{ notif.message }}
+              </p>
+
+               <p class="text-xs font-semibold">
+                  {{ notif.createdAt | date:'MMM d, y • h:mm a' }}
+               </p>
+            </a>
+          </div>
+          <div class="ml-2">
+            <span *ngIf="!notif.isRead" class="w-2 h-2 bg-blue-500 rounded-full mt-2"></span>
+          </div>
+        </div>
+      </div>
+
+      </div>
+
+
+ 
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <!-- Logout Modal -->
+ <div *ngIf="isLogoutModalOpen"  class="bg-black/50 fixed inset-0 z-10">
+    <div class="flex justify-center mt-[10rem]">
+      <div class=" bg-white w-[35rem] h-full [10rem] rounded-[10px] ">
+  
+            <div class="flex justify-center mt-6 font-bold">
+              Confirm Logout
+            </div>
+
+          <div class="flex justify-center relative top-[10px]">
+          <div class="flex justify-center items-center bg-red-100 rounded-full w-10 h-10">
+               <img src="/Logout.png" class="w-4">
+          </div>
+        </div>
+
+        <div class="mt-4">
+          <div class="flex justify-center mx-10">
+            Are you sure you want to log out of your account? 
+            You will need to sign in again to continue.
+           </div>
+           <div class="flex gap-4 mt-5 mx-10 mb-3">
+              <button (click)="logout()"
+             class="text-sm text-green-500 border border-green-600 hover:bg-green-500 hover:text-white rounded  px-8 py-1">
+             Yes
+            </button>
+
+             <button (click)="closeLogoutModal()"
+             class="text-sm text-red-500 border border-red-500 hover:bg-red-500 hover:text-white rounded px-8 py-1">
+             No
+            </button>
+           </div>
+        </div>
+      </div> 
+    </div>
+ </div>
+
+
+
+       <!-- Main page -->
+    <div class="mt-4 bg-white mx- 4 rounded-t-[30px] w- full h-full p-4 md:mx-6 ">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div> 
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
+
+  <div class="bg-gradient-to-r from-[#0D2031] via-[#132E45] to-[#1B3A57] mt-[-5rem] h- [20rem]  w-[52rem] lg:w-full">
+  <div class="bg-[url('/Rectangle12.png')] bg-cover bg-no-repeat bg-center h-screen [28rem] screen full  w-[52rem] md:w-full py-[5rem] md:py-0">
+
+  <div class="flex justify-between items-center text-[50px] md:text-[20px] mx-10 relative top-[4rem] md:top-[7rem]">
+  <div class="text-white">
+    Logo
+  </div>
+
+  Navigation links  
+  <div class="hidden md:block">
+  <div class="flex items-center gap-10"> 
+  <a routerLink="/dashboard" routerLinkActive="bg-[#F3F3F16E] py-1 px-2 rounded-[10px] !text-black border-2"
+  class="hover:bg-[#F3F3F16E] hover:py-1 hover:px-2 hover:rounded-[10px] text-white hover:border-2 hover:border-white"
+  > 
+    Dashboard
+  </a>
+  <a routerLink="/tools" routerLinkActive="bg-[#F3F3F16E] py-1 px-2 rounded-[10px] !text-black border-2"
+  class="text-white hover:bg-[#F3F3F16E] hover:py-1 hover:px-2 hover:rounded-[10px] hover:border-2 hover:border-white"
+  >
+  Tools
+</a>
+  <a routerLink="/page1" routerLinkActive="bg-[#F3F3F16E] py-1 px-2 rounded-[10px] !text-black border-2"
+  class="text-white hover:bg-[#F3F3F16E] hover:py-1 hover:px-2 hover:rounded-[10px] hover:border-2 hover:border-white"
+  >
+  Staff
+</a>
+   <a routerLink="/unit" routerLinkActive="bg-[#F3F3F16E] py-1 px-2 rounded-[10px] !text-black border-2"
+   class="text-white hover:bg-[#F3F3F16E] hover:py-1 hover:px-2 hover:rounded-[10px] hover:border-2 hover:border-white"
+   >
+   Unit
+  </a>
+  </div>
+  </div>
+
+
+  Mobile screen
+    <button (click)="openobile()" class="md:hidden text-white">
+        Open
+      </button>
+
+    <div *ngIf="isMobileOpen" class="md:hidden bg-black/80 fixed z-10 mt-[15rem] left-[8rem]">
+      <div  class="flex flex-col gap-y-4 items-center px-4 py-6">
+        <a routerLink="/dashboard" (click)="closeobile()" class="text-white">Dashboard</a>
+        <a routerLink="/tools" (click)="closeobile()" class="text-white">Tools</a>
+        <a routerLink="/page1" (click)="closeobile()" class="text-white">Staff</a>
+        <a routerLink="/unit" (click)="closeobile()" class="text-white">Unit</a>
+     </div>
+    </div>
+
+
+
+  
+  Open notification modal button
+    <div class="flex gap-2 sm:gap-4">
+           <p class="  text-white text-[9px] flex justify-center items-center bg-red-500 rounded-full w-3 h-3 relative left-[40px] md:left-[53px] mt-1">
+        {{ unreadCount }}
+            </p> 
+        <button (click)="openNotificationModal()">
+          <img src="/bell.png" class="w-10 h-10 sm:w-[46px] sm:h-[46px]" alt="Notifications" />
+        </button>
+
+        Profile button
+        <button (click)="profilePage()">
+          <img src="/Group1.png" class="w-10 h-10 sm:w-[46px] sm:h-[46px]" alt="profile" />
+        </button>
+
+          Logout button
+        <div class="bg-gray-400 rounded-full ">
+          <button (click)="logout()">
+            <span class="material-symbols-outlined w-10 h-10 md:w-[46px] md:h-[46px] text-[#FFFFFF] relative top-2 left-">logout</span>
+            </button>
+        </div>
+      </div>
+</div>
+
+      <div class="mt-[10rem] bg-white rounded-t-[30px] h-[100rem] md:h-screen full  md:mx-6 ">
+        <div class="relative top-[5rem]">
+     <router-outlet></router-outlet>
+     </div>
+</div>    -->
+
+
+
+
+
+
+
+<!-- <div class="mt-[10rem] bg-white mx- 1 rounded-t-[30px] h-[100rem] md:h-full md:mx-6 py-20 ">
+     <router-outlet></router-outlet>
+</div> -->
+
+<!-- </div> -->
+

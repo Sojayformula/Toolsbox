@@ -1,0 +1,48 @@
+<div class="container bg-gray-200 h- full">
+<div class="relative mx-2 md:mx-10 ">
+    <div class="bg- white h-full rounded-xl">
+<!-- Resource text -->
+ <div class="relative top-[-9rem] md:mx-10 ">
+  <div class="text-white text-[32px] font-bold">
+    Resource
+  </div>
+
+  <div class="bg-white mt-[1rem] h-full rounded-xl">
+    <!-- Link and line -->
+    <div class="mx-4 md:mx-10">
+      <div class="md:mx-10 flex gap-4">
+        <a
+         routerLink="/resource"
+         routerLinkActive="after:scale-x-100"
+         class="relative inline-block px-2 font-semibold text-gray-900 mt-14
+         after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[3px]
+         after:bg-[#E1E1E1] after:origin-center after:scale-x-0 after:transition-transform after:duration-300
+         hover:after:scale-x-100"
+        >
+         Placeholders
+        </a>
+
+         <a
+          routerLink="/contactimport"
+          routerLinkActive="after:scale-x-100"
+          class="relative inline-block px-2 font-semibold text-gray-900 mt-14
+          after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[3px]
+          after:bg-[#E1E1E1] after:origin-center after:scale-x-0 after:transition-transform after:duration-300
+          hover:after:scale-x-100"
+         >
+          Contact Import
+        </a>
+
+      </div>
+      <hr class="bg-[#E1E1E1]">
+    </div> 
+
+    <div class="mx-2 md:mx-10 mt-10">
+        <router-outlet></router-outlet>
+    </div>
+
+    </div>
+  </div>
+</div>
+
+

@@ -1,0 +1,540 @@
+
+<div
+  *ngIf="isNotificationOpen"
+  class="fixed inset-0 bg-black/40 flex justify-center items-start z-50"
+  (click)="closeNotificationModal()"
+>
+  <div
+    class="bg-white w-[25rem] mt-20 rounded-lg shadow-lg"
+    (click)="$event.stopPropagation()"
+  >
+
+    <!-- Header -->
+    <div class="flex justify-between items-center px-4 py-3 border-b">
+      <h2 class="font-semibold">Notifications</h2>
+      <button (click)="closeNotificationModal()">✕</button>
+    </div>
+
+    <!-- Tabs -->
+    <div class="flex border-b">
+      <button
+        *ngFor="let tab of tabs"
+        (click)="setTab(tab)"
+        class="flex-1 py-2 text-sm"
+        [ngClass]="{
+          'border-b-2 border-blue-500 font-semibold': activeTab === tab,
+          'text-gray-500': activeTab !== tab
+        }"
+      >
+        {{ tab | titlecase }}
+      </button>
+    </div>
+
+    <!-- Actions -->
+    <button
+      class="text-xs text-blue-500 px-4 py-2"
+      (click)="markAllAsRead()"
+    >
+      Mark all as read
+    </button>
+
+    <!-- List -->
+    <div class="max-h-[22rem] overflow-y-auto">
+      <div
+        *ngFor="let item of filteredNotifications"
+        (click)="markAsRead(item)"
+        class="px-4 py-3 cursor-pointer border-b"
+        [ngClass]="{
+          'bg-gray-100 text-gray-400': item.isRead,
+          'bg-white text-black font-medium': !item.isRead
+        }"
+      >
+        <p class="text-sm">{{ item.title }}</p>
+        <p class="text-xs text-gray-500">{{ item.message }}</p>
+      </div>
+
+      <p
+        *ngIf="!filteredNotifications.length"
+        class="text-center py-6 text-gray-400"
+      >
+        No notifications
+      </p>
+    </div>
+  </div>
+</div>
+
+
+
+    <!-- Place holder text and create place holder button -->
+    <div class="mt-10 md:mx-10">
+      <div class="flex justify-between">
+         <div class="font-semibold text-[20px]">Place holder</div>
+         <div>
+          <button (click)="openPlaceHolderOpen()" 
+          class="bg-[#4CCA7F] border border-[#40B97D] text-[12.76px] text-white font-semibold rounded-[6px] py-1 px-2 md:px-4"
+          >
+            Create placeholder
+          </button>
+         </div>
+      </div>
+
+
+  <!-- Create placeholder modal -->
+  <div *ngIf="isPlaceHolderOpen" class="fixed inset-0 z-10 flex justify-center items-start bg-black/50 transition-opacity duration-300"
+    [class.opacity-100]="isVisible"
+    [class.opacity-0]="!isVisible"
+    (click)="closePlaceHolder()"
+    >
+  <!-- Modal Container (Animate this directly!) -->
+  <div class="bg-white rounded-lg mt-[2rem] w-[25rem] h-[28rem] transform transition-all duration-300 ease-out"
+    [class.translate-x-full]="!isVisible"
+    [class.-translate-x-0]="isVisible"
+    [class.opacity-100]="isVisible"
+    [class.opacity-0]="!isVisible"
+    (click)="$event.stopPropagation()" 
+>
+  <div class="bg-white rounded-lg mt-[6rem] w-[25rem] h-[26rem]">
+    <div class="mt- 20">
+        <div class="flex justify-between mx-5 mt-10">
+          <div class="text-[16px]">Create placeholder</div>
+          <button (click)="closePlaceHolder()" 
+          class="text-[12px] bg-[#BDBCBC] w-[20.91px]  h-[21.48px] flex justify-center items-center rounded-[4px] font-semibold">
+            x
+          </button>
+          </div>
+          <hr class="bg-[#E1E1E1] py-[0.5px]">
+
+          <!-- Form -->
+            <form #form="ngForm">
+            <div class="mx-5 space-y- 6 mt-6">
+            <!-- <div class="flex flex-col">
+
+                Label
+              <label>Label</label>
+              <input
+              type="text"
+              name="label"
+              [(ngModel)]="label"
+              placeholder="eg. Institution"
+              class="px-4 py-1 border border-[#D4D4D4] rounded-[5px] focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+              </div>
+
+              Type
+              <div class="flex flex-col">
+              <label>Type</label>
+              <select
+              name="type"
+              [(ngModel)]="type"
+              class="px-4 py-1 border border-[#D4D4D4] rounded-[5px] focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="" disabled selected hidden>Dropdown</option>
+                <option value="TEXT">Text</option>
+                <option value="DROPDOWN">Dropdown</option>
+              </select>
+              </div>
+
+              Options   
+              <div *ngIf="type === 'DROPDOWN'" class="flex flex-col">
+              <label>Options</label>
+              <textarea
+                #optionsInput                      
+                name="options"
+                [(ngModel)]="options"
+                placeholder="eg. GCB, Ecobank, CBG"
+                class="px-4 py-1 border border-[#D4D4D4] rounded-[5px] focus:outline-none focus:ring-2 focus:ring-blue-500"
+                ></textarea>
+              </div> -->
+
+
+             
+
+            <!-- Label -->
+            <div class="flex flex-col">
+            <label>Label</label>
+            <input
+              type="text"
+              name="label"
+              [(ngModel)]="label"
+              required
+              placeholder="Label (e.g. Institution)"
+              class="border p-2 w-full mb-3"
+            />
+            </div>
+
+            <!-- Type -->
+            <div class="flex flex-col">
+            <label>Type</label>
+            <select
+              name="type"
+              [(ngModel)]="placeHolderModel.type"
+              required
+              class="border p-2 w-full mb-3"
+            >
+              <option value="">Select type</option>
+              <option value="TEXT">TEXT</option>
+              <option value="DROPDOWN">DROPDOWN</option>
+            </select>
+            </div>
+
+            <!-- Options (only for DROPDOWN) -->
+            <div *ngIf="placeHolderModel.type === 'DROPDOWN'"  class="flex flex-col">
+            <label>Option</label>
+            <input
+              type="text"
+              name="options"
+              [(ngModel)]="options"
+              placeholder="Options (comma separated)"
+              class="border p-2 w-full mb-3"
+            />
+            </div>
+
+            <!-- Text Value -->
+            <div *ngIf="placeHolderModel.type !== 'DROPDOWN'" class="flex flex-col">
+            <label>Text value</label>
+            <textarea
+              name="textValue"
+              [(ngModel)]="placeHolderModel.textValue"
+              placeholder="Free-form text"
+              class="border p-2 w-full mb-4"
+            ></textarea>
+            </div>
+
+            <!-- Submit -->
+
+
+
+              </div>
+
+              <hr class="bg-[#E1E1E1] mt-4 10 py-[0.5px]">
+          </form> 
+          
+        <div class="flex gap-2 justify-end mt-3 6 mx-5">
+          <button (click)="closePlaceHolder()" class="bg-gray-700 text-white rounded-[6px] px-4 py-1">
+          Cancel
+          </button>
+        <button (click)="onSubmit()" class="bg-green-600 text-white rounded-[6px] px-4 py-1">
+          Create
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+</div> 
+     
+
+
+       <!-- Delete Modal -->
+ <div *ngIf="showDeleteModal" (click)="closeDeletePlaceholder()" class="bg-black/50 fixed inset-0 ">
+    <div class="flex justify-center mt-[10rem]">
+      <div class=" bg-white w-[25rem] h-[15rem] rounded-[10px]">
+        <!-- <div class="mt-10 mx-10 font-bold">Delete Placeholder?</div> -->
+            <div class="flex justify-center mt-6 font-bold">
+              Delete placeholder?
+            </div>
+
+          <div class="flex justify-center relative top-[10px]">
+          <div class="flex justify-center items-center bg-red-100 rounded-full w-10 h-10">
+           <span  class="material-symbols-outlined fle x  justify-center text-red-600 text-[25px]">
+               delete
+           </span>
+          </div>
+        </div>
+
+        <div class="mt-5">
+          <div class="flex justify-center mx-10">
+            Are you sure you want to delete this placeholder? 
+            This action cannot be undone.
+           </div>
+           <div class="flex gap-2 justify-end mt-8 mx-5">
+              <button (click)="closeDeletePlaceholder()"
+             class="bg-gray-600 text-white rounded px-4 py-1">
+             Cancel
+            </button>
+
+             <button
+             class="bg-red-500 text-white rounded-4 px-4 py-1">
+             Delete
+            </button>
+           </div>
+        </div>
+      </div> 
+    </div>
+ </div>
+
+
+
+
+
+
+ 
+  <!-- Edit placeholder modal -->
+<div *ngIf="editplaceholder" class="bg-black/50 fixed inset-0 z-10">
+<div class="flex justify-center">
+  <div class="bg-white rounded-lg mt-[5rem] w-[25rem] h-full">
+    <div class="mt- 20">
+        <div class="flex justify-between mx-5 mt-10">
+          <div class="text-[16px] font-semibold">Edit placeholder</div>
+          <button (click)="isPlaceholderClose()" 
+          class="text-[12px] bg-[#BDBCBC] w-[20.91px]  h-[21.48px] flex justify-center items-center rounded-[4px] font-semibold">
+            x
+          </button>
+          </div>
+          <hr class="bg-[#E1E1E1] py-[0.5px]">
+
+          <!-- Form -->
+            <form #form="ngForm" (ngSubmit)="editPlaceholder()">
+            <div class="mx-5 space-y-6 mt-6">
+              <!-- Name -->
+            <!-- <div class="flex flex-col">
+              <label>Label</label>
+              <input
+              type="text"
+              name="label" 
+              [(ngModel)]="placeholderModel.label"               
+              placeholder="Enter name"
+              class="px-4 py-1 border border-[#D4D4D4] rounded-[5px] focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+              </div>
+
+              Email
+              <div class="flex flex-col">
+              <label>type</label>
+              <input
+              type="text"
+              name="type"
+              [(ngModel)]="placeholderModel.type"                   
+              placeholder="Enter email"
+              class="px-4 py-1 border border-[#D4D4D4] rounded-[5px] focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+              </div>
+
+              Phone number
+                <div class="flex flex-col">
+              <label>Option</label>
+              <input
+              type="text"
+              name="options" 
+              [(ngModel)]="placeholderModel.options"                    
+              placeholder="Enter phone"
+              class="px-4 py-1 border border-[#D4D4D4] rounded-[5px] focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+              </div> -->
+
+              
+
+              <!-- Label -->
+              <!-- <div class="flex flex-col">
+                <label>Label</label>
+              <input
+              type="text"
+                name="label"
+                [(ngModel)]="placeholderModel.label"
+                required
+                class="border p-2 w-full mb-3"
+                placeholder="Label"
+                class="px-4 py-1 border border-[#D4D4D4] rounded-[5px] focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              </div> -->
+
+                <!-- Label -->
+              <div class="flex flex-col">
+                <label>Label</label>
+              <select
+                name="label"
+                [(ngModel)]="placeholderModel.label"
+                required
+                class="px-4 py-1 border border-[#D4D4D4] rounded-[5px] focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="">Select type</option>
+                <option *ngFor="let label of toolsData" [value]="label._id">
+                  {{label.name}}
+                </option>
+              </select>
+              </div>
+
+              <!-- Type -->
+              <div class="flex flex-col">
+                <label>Type</label>
+              <select
+                name="type"
+                [(ngModel)]="placeholderModel.type"
+                required
+                class="px-4 py-1 border border-[#D4D4D4] rounded-[5px] focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="">Select type</option>
+                <option value="TEXT">TEXT</option>
+                <option value="DROPDOWN">DROPDOWN</option>
+              </select>
+              </div>
+
+
+               <!-- Text Value -->
+              <div *ngIf="placeholderModel.type !== 'DROPDOWN'" class="flex flex-col">
+                <label>Text value</label>
+              <textarea
+                name="textValue"
+                [(ngModel)]="placeholderModel.textValue"
+                class="border p-2 w-full mb-3"
+                placeholder="Text value"
+              ></textarea>
+              </div>
+
+              <!-- Options (only if DROPDOWN) -->
+              <div *ngIf="placeholderModel.type  === 'DROPDOWN'" class="flex flex-col">
+                <label>Option</label>
+              <input 
+                type="text"
+                name="options"
+                [(ngModel)]="placeholderUIModel.options"
+                class="border p-2 w-full mb-3"
+                placeholder="eg. GCB, UBA, ECOBANK"
+                class="px-4 py-1 border border-[#D4D4D4] rounded-[5px] focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              </div>
+
+
+
+              </div>
+
+              <hr class="bg-[#E1E1E1] mt-5 py-[0.5px]">
+
+
+            <div class="flex gap-2 justify-end mb-5 mt-2 mx-5">
+              <button type="submit" class="bg-gray-800 text-white rounded-[6px] px-3 py-2">
+                Save Changes
+              </button>
+            </div>
+          </form> 
+            
+  </div>
+</div>
+</div>
+</div>
+
+
+
+
+
+  <!-- Page loader -->
+    <div *ngIf="isLoading" class="flex gap-4 justify-center">
+      <span class="loader"></span>
+   </div>
+
+
+
+       <div class="mt-10 md:mt-10 overflow-auto">
+        <table class="w-full">
+            <thead class="bg-[#00203D] text-white text-[10px] md:text-[12px]">
+                <tr class="text-left">
+                    <th class="p-4 rounded-tl-[10px]">Label</th>
+                    <th class="p-4">Type</th>
+                    <th class="p-4">Option</th> 
+                    <th class="p-4">Text Value</th>
+                    <th class="p-4 rounded-tr-[10px]">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of placeHolderData">
+                    <td class="p-4">{{item.label}}</td>
+                    <td class="p-4">{{item.type}}</td>
+                    <td class="p-4">{{item.options}}</td>
+                    <td class="p-4">{{item.textValue || 'N/A'}}</td>
+                    <td class="p-4">
+                       <div class="flex"> 
+                      <button (click)="openDeletePlaceholder(item._id)">
+                         <span  class="material-symbols-outlined text-red-500">
+                           delete
+                         </span>
+                       </button>
+
+                      <button (click)="isPlaceholderOpen(item._id)" >
+                         <span class="material-symbols-outlined text-blue-500">
+                            stylus_note
+                         </span>
+                      </button>
+                      </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+          <!-- PAGINATION -->
+          <!-- <div class="flex justify-between items-center px-2 pt-[10px]">
+          <div></div>
+            <div class="w-[90%] md:w-[70%] lg:w-[30%] text-[12px] md:text-[16px]">
+                <nz-pagination
+                [nzTotal]="50"
+                (nzPageIndexChange)="onPageChange($event)">
+                
+                </nz-pagination>
+              </div> 
+           </div> -->
+    </div>
+
+  <!-- </div> -->
+<!-- </div> -->
+
+<!-- </div> -->
+
+
+
+
+
+
+
+
+
+
+<!-- 
+ <div class="max-w-md mx-auto p-4 border rounded shadow">
+      <h2 class="text-xl font-bold mb-4">Create Placeholder</h2>
+      <form (ngSubmit)="onSubmit()" #placeholderForm="ngForm">
+        Label
+        <div class="mb-3">
+          <label class="block mb-1">Label</label>
+          <input type="text" class="w-full p-2 border rounded"
+                 [(ngModel)]="label" name="label" required />
+        </div>
+
+        Type
+        <div class="mb-3">
+          <label class="block mb-1">Type</label>
+          <select [(ngModel)]="type" name="type" class="w-full p-2 border rounded" required>
+            <option value="DROPDOWN">Dropdown</option>
+            <option value="TEXT">Text</option>
+          </select>
+        </div>
+
+        Options
+        <div class="mb-3" *ngIf="type === 'DROPDOWN'">
+          <label class="block mb-1">Options (comma separated)</label>
+          <input type="text" class="w-full p-2 border rounded"
+                 [(ngModel)]="options" name="optionsStr" placeholder="GCB, MTN, Telecel" />
+        </div>
+
+        <button type="submit" class="bg-green-600 text-white rounded-[6px] px-4 py-1">
+          Create
+        </button>
+      </form>
+
+      <div *ngIf="response" class="mt-4 p-2 border rounded bg-green-50">
+        Created successfully: {{ response | json }}
+      </div>
+    </div>
+
+
+
+
+
+
+                <div class="flex gap-2 justify-end mt-6 mx-5">
+                 <button (click)="closePlaceHolder()" class="bg-gray-700 text-white rounded-[6px] px-4 py-1">
+                  Cancel
+                 </button>
+                <button (click)="onSubmit()" class="bg-green-600 text-white rounded-[6px] px-4 py-1">
+                  Create
+                </button>
+              </div>
+            </form> -->

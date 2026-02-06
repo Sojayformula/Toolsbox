@@ -1,0 +1,207 @@
+  <div class="bg-gray-200 h-sreen">
+
+    
+    <!-- <div class="flex justify-end relative top-[-15.3rem] lg:right-20 md:right-16 md:top-[-15.8rem] md:mx-14 gap-2">
+    <button (click)="openNotificationModal()">
+   <img src="/notificationbell.png" class="w-[21.51px] h-[21.51px] ">
+   <div></div>
+   </button>
+       <div class="  text-white text-[12px] flex justify-center items-center bg-red-500 rounded-full w-4 h-4 relative right-5 top-[-6px]">
+        {{ unreadCount }}
+    </div>
+   </div> -->
+
+
+
+<!-- Notificatin modal -->
+ <div *ngIf="isNotificationOpen"
+  class="fixed inset-0 bg-black/40 flex justify-center items-start z-50"
+  (click)="closeNotificationModal()"
+>
+  <div
+    class="bg-white w-[25rem] mt-20 rounded-lg shadow-lg"
+    (click)="$event.stopPropagation()"
+  >
+
+    <!-- Header -->
+    <div class="flex justify-between items-center px-4 py-3 border-b">
+      <h2 class="font-semibold">Notifications</h2>
+      <button (click)="closeNotificationModal()">✕</button>
+    </div>
+
+    <!-- Tabs -->
+    <div class="flex border-b">
+      <button
+        *ngFor="let tab of tabs"
+        (click)="setTab(tab)"
+        class="flex-1 py-2 text-sm"
+        [ngClass]="{
+          'border-b-2 border-blue-500 font-semibold': activeTab === tab,
+          'text-gray-500': activeTab !== tab
+        }"
+      >
+        {{ tab | titlecase }}
+      </button>
+    </div>
+
+    <!-- Actions -->
+    <button
+      class="text-xs text-blue-500 px-4 py-2"
+      (click)="markAllAsRead()"
+    >
+      Mark all as read
+    </button>
+
+    <!-- List -->
+    <div class="max-h-[22rem] overflow-y-auto">
+      <div
+        *ngFor="let item of filtered"
+        (click)="markAsRead(item)"
+        class="px-4 py-3 cursor-pointer border-b"
+        [ngClass]="{
+          'bg-gray-100 text-gray-400': item.isRead,
+          'bg-white text-black font-medium': !item.isRead
+        }"
+      >
+        <p class="text-sm">{{ item.title }}</p>
+        <p class="text-xs text-gray-500">{{ item.message }}</p>
+      </div>
+
+      <p
+        *ngIf="!filtered.length"
+        class="text-center py-6 text-gray-400"
+      >
+        No notifications
+      </p>
+    </div>
+  </div>
+</div> 
+
+
+
+
+
+                        <!-- Cards -->
+    <div class="grid grid-cols-2 md:grid-cols-5 lg:grid-cols-5 gap-2 md:gap-6 lg:gap-[rem] mx-4  md:mx-10 relative top-[-5rem]">
+        <div class=" border-[1.18px] border-l-4 border-gray-500 bg-white lg:w-[14rem] h-[7rem] lg:h-[124.53px] rounded-[18.82px] shadow-lg">
+            <div class="flex justify-between mx-4 mt-4">
+                <p>Total</p>
+                <p class=""><img src="/card1.png" class="lg:w-[47.05px] h-[30px] lg:h-[47.05px]"></p>
+            </div>
+            <p class="lg:text-[39.12px] text-[20px] md:mt-6 lg:mt-0 font-bold mx-4">{{ metrics.total }}</p>
+        </div>
+
+          <div class="border-[1.18px] border-l-4 border-green-600 bg-white lg:w-[14rem] h-[7rem] lg:h-[124.53px] rounded-[18.82px] shadow-lg">
+             <div class="flex justify-between mx-4 mt-4">
+                <p>Closed Tickets</p>
+                <p><img src="/card2.png" class="lg:w-[47.05px] h-[30px] lg:h-[47.05px]"></p>
+            </div>
+             <p class="lg:text-[39.12px] md:text-[20px] font-bold mx-4">{{ metrics.closed }}</p>
+        </div>
+
+           <div class="border-[1.18px] border-l-4 border-red-600 bg-white lg:w-[14rem] h-[7rem] lg:h-[124.53px] rounded-[18.82px] shadow-lg">
+             <div class="flex justify-between mx-4 mt-4">
+                <div>Open Tickets</div>
+                <div><img src="/card3.png" class="lg:w-[47.05px] h-[30px] lg:h-[47.05px]">
+                </div>
+            </div>
+             <p class="lg:text-[39.12px] md:text-[20px] font-bold mx-4">{{ metrics.open }}</p>
+        </div>
+
+         <div class="border-[1.18px] border-l-4 border-blue-600 bg-white lg:w-[14rem] h-[7rem] lg:h-[124.53px] rounded-[18.82px] shadow-lg">
+             <div class="flex justify-between mx-4 mt-4">
+                <p>Escalated Tickets</p>
+                <p><img src="/card4.png" class="lg:w-[47.05px] h-[30px] lg:h-[47.05px]"></p>
+            </div>
+             <p class="lg:text-[39.12px] md:text-[20px] font-bold mx-4">{{ metrics.escalated }}</p>
+        </div>
+
+          <div class="border-[1.18px] border-l-4 border-yellow-500 bg-white lg:w-[14rem] h-[7rem] lg:h-[124.53px] rounded-[18.82px] shadow-lg">
+             <div class="flex justify-between mx-4 mt-4">
+                <p>Pending Tickets</p>
+                <p><img src="/card4.png" class="lg:w-[47.05px] h-[30px] lg:h-[47.05px]"></p>
+            </div>
+             <p class="lg:text-[39.12px] md:text-[20px] font-bold mx-4">{{ metrics.escalated }}</p>
+        </div>
+
+    </div>
+ 
+
+
+    
+
+             <!-- CHATS -->
+    <div class="mx-2 md:mx-20 ">
+
+    <div class="lg:flex overflow-auto md:mt- h-[488px]">
+    <div class="w-[971px] bg-white h-[470px] rounded-xl shadow">
+
+     <!-- TOGGLE BUTTONS -->
+     <div class="flex justify-between md:mx-10 mt-10 ">
+       <div class="bg-[#F3F3F3] border border-[#E0E0E0] md:w-[440px] h-[36px] flex rounded-[10px]">
+
+        <button
+          (click)="setDuration('LAST_24_HOURS')"
+          class="h-[36px] px-3 rounded-[10px] transition-all whitespace-nowrap"
+          [ngClass]="selectedChoice === 'LAST_24_HOURS'
+            ? 'bg-white text-black shadow'
+            : 'text-[#838383]'">
+          Last 24hrs
+        </button>
+
+        <button
+          (click)="setDuration('LAST_WEEK')"
+          class="h-[36px] px-3 rounded-[10px] transition-all whitespace-nowrap"
+          [ngClass]="selectedChoice === 'LAST_WEEK'
+            ? 'bg-white text-black shadow'
+            : 'text-[#838383]'">
+          This Week
+        </button>
+
+        <button
+          (click)="setDuration('LAST_MONTH')"
+          class="h-[36px] px-3 rounded-[10px] transition-all whitespace-nowrap"
+          [ngClass]="selectedChoice === 'LAST_MONTH'
+            ? 'bg-white text-black shadow'
+            : 'text-[#838383]'">
+          This Month
+        </button>
+
+        <button
+          (click)="setDuration('LAST_YEAR')"
+          class="h-[36px] px-3 rounded-[10px] transition-all whitespace-nowrap"
+          [ngClass]="selectedChoice === 'LAST_YEAR'
+            ? 'bg-white text-black shadow'
+            : 'text-[#838383]'">
+          This Year
+        </button>
+
+      </div>
+    </div>
+
+    <!-- GRAPH SECTION -->
+    <div class="mt-10 px-10 h-[300px]">
+      <h3 class="text-center text-lg font-semibold mb-4">Ticket Status Overview</h3>
+
+      <div class="relative h-full">
+        <canvas #metricsChart></canvas>
+      </div>
+    </div>
+
+
+        </div>
+
+                 <!-- ROUND CHAT -->
+         <div class="hidden">
+           <img src="/chat2.png" class="w-[250px] md:w-full lg:w-[335.33px] lg:h-[482.03px]">
+         </div>
+
+        <div class=" bg-white w-[966px] sm:w-auto">
+          <div class="">
+           <img src="/chat2.png" class="w-[350px]">
+         </div>
+        </div>
+        </div>
+    </div>
+
+

@@ -1,0 +1,191 @@
+<div class="mt-32 md:mt-0 ">
+
+    <!-- Add unit button -->
+    <div class="mx-10 mt-10 text-white text-[30px] md:text-[16px]">
+        <div class="flex justify-end">
+            <button (click)="openModal()" class="bg-blue-600 px-10 md:px-4 py-2 md:py-1 rounded-[6px] ">
+                Add unit
+            </button>
+        </div>
+    </div>
+
+
+      <!-- Search field -->
+  <div class="bg-[#FAFAFA] border border-[#DCDEE3] w-full [1385px]  md:h-[72px] px-4 mt-20 md:mt-4">
+   
+      <div class="flex justify-end mt-3 ">
+      <input 
+          type="text"
+          [(ngModel)]="searchQuery"
+          (ngModelChange)="searchQuery$.next($event)" 
+          placeholder="Search by name" 
+          class="text-[48px] md:text-[16px] border py-3  px-4 md:w-[200px] rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+  </div>
+
+
+    <!-- Add unit modal -->
+     <div *ngIf="isModalOpen" class="">
+        <div class="flex justify-center fixed inset-0 bg-black bg-opacity-50 z-10 ">
+            <div class="flex justify-center mt-20 md:mt-[1rem] mb-[5rem] md:mb-10 border-2 bg-white border-white">
+                <div class="formcontainer md:w-[25rem]">
+                    <div class="flex justify-end text-sm text-black mx-8 mt-2">
+                        <button (click)="closeModal()">
+                            x
+                        </button>
+                    </div>
+                
+          <div class="mx-5 ">Add Unit</div>
+        
+        <form #form="ngForm" (ngSubmit)="onSubmit(form)" class="flex flex-col gap-3 mt-10 mx-5">
+        <div>
+        <label>Name</label>
+        <input
+        type="text"
+        name="firstName"
+        [(ngModel)]="createUnitPayload.name"
+        class="border-2 p-1 w-full rounded-md bg-[#F2F2F2] border-[#D7D7D7]"
+        >
+        </div>
+       
+
+         <div>
+        <label>Description</label>
+        <input
+        type="textarea"
+          name="description"
+          rows="2"
+          [(ngModel)]="createUnitPayload.description"
+          class="w-full mt-1 p-2 border rounded-md bg-[#F2F2F2] border-[#D7D7D7]"
+        >
+        </div>
+
+         <div>
+        <label>Unit Head</label>
+        <input
+        type="text"
+        name="firstName"
+        class="border-2 p-1 w-full rounded-md bg-[#F2F2F2] border-[#D7D7D7]"
+        >
+        </div>
+
+        <!-- radio select -->
+        <div class="">
+        <p>Is this a sub unit?</p>
+        <div class="flex gap-2">
+        <input
+        type="radio"
+        name="yes"
+        [value]="true"
+        [(ngModel)]="createUnitPayload.isSubUnit"
+        class=""
+        >
+        <label>Yes</label>
+       
+        <input
+        type="radio"
+        name="no"
+        [value]="false"
+        [(ngModel)]="createUnitPayload.isSubUnit"
+        class=""
+        >
+        <label>No</label>
+        </div>
+        </div>
+
+        <div *ngIf="createUnitPayload.isSubUnit" class="flex flex-col">
+        <label>Parent Unit</label> 
+        <select
+          name="parentUnit"
+          [(ngModel)]="createUnitPayload.parentUnit"
+          class="border-2 p-1 w-full rounded-md bg-[#F2F2F2] border-[#D7D7D7]"
+        >
+            <option value="">Select Parent Unit</option>
+            <option *ngFor="let parent of unitData" [value]="parent._id">
+                {{parent.parentUnit || 'N/A'}}
+            </option>
+        </select>
+        </div>
+
+        <div class="flex justify-end gap-2 mt-6 md:mt-4">
+            <button (click)="closeModal()" class="bg-gray-700 px-6 py-1 rounded-[6px] text-white">
+                Cancel
+            </button>
+            <button class="bg-green-700 px-6 py-1 rounded-[6px] text-white">
+                Save
+            </button>
+        </div>
+      </form>
+     </div>
+      </div>
+      </div>
+      </div>
+
+
+     
+      <!-- Delete modal -->
+       <div *ngIf="deleteModal">
+        <!-- <button (click)="closeDeleteModal()">close</button> -->
+
+         <div class="flex justify-end space-x-3">
+      <button
+        type="button"
+        (click)="deleteStaff()"
+        class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+      >
+        Delete
+      </button>
+      <button
+        type="button"
+        (click)="closeDeleteModal()"
+        class="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400"
+      >
+        Cancel
+      </button>
+    </div>
+
+       </div>
+
+
+
+        <!-- Page loader -->
+    <div *ngIf="isLoading" class="flex gap-4 justify-center">
+      <span class="loader"></span>
+   </div>
+    
+<div class="overflow-auto">
+    <table class="w-full mt-20 md:mt-10 overflow-auto">
+        <thead class="bg-gray-200 h-20 md:h-10 text-left text-[35px] md:text-[16px]">
+            <tr class="">
+                <th class="md:px-4 px-8">Unit ID</th>
+                <th class="md:px-4 px-8">Unit Name</th>
+                <th class="md:px-4 px-8">Description</th>
+                <th class="md:px-4 px-8">Action</th>
+            </tr>
+        </thead>
+        <tbody class="text-[40px] md:text-[14px]">
+            <tr *ngFor="let unit of unitData; let i = index" class="w-full">
+                <td class="md:px-4 px-8 py-2">#{{unit._id}}</td>
+                <td class="md:px-4 px-8 py-2">{{unit.name}}</td>
+                <td class="md:px-4 px-8 py-2">{{unit.description}}</td>
+                <td class="">
+                  <button (click)="openDeleteModal(unit._id)">
+                    <span  class="material-symbols-outlined text-red-500 text-[55px] md:text-[23px]">
+                       delete
+                    </span>
+                  </button>
+
+                  <button (click)="editrouter()">
+                     <span class="material-symbols-outlined text-blue-500 text-[55px] md:text-[23px]">
+                        stylus_note
+                     </span>
+                   </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</div>
+       
+		

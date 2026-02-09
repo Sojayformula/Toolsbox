@@ -81,21 +81,24 @@ export class UnitComponent implements OnInit{
 
 
   deleteModal = false
-  selectedStaffIdToDelete: string | null = null;
+  selectedStaffIdDelete: string | null = null;
 
-  openDeleteModal(id: string){
-    this.selectedStaffIdToDelete = id;
-    console.log('ID', this.selectedStaffIdToDelete)
+  openDelete(id: string){
+    this.selectedStaffIdDelete = id;
+    console.log('ID', this.selectedStaffIdDelete)
     this.deleteModal = true
   }
 
   closeDeleteModal(){
     this.deleteModal = false
+    this.selectedStaffIdDelete = null
   }
 
-  deleteStaff(){
-    if (!this.selectedStaffIdToDelete) return;
-    this.employeeserv.deleteUnit(this.selectedStaffIdToDelete).subscribe({
+
+  deleteUnit(){
+    if (!this.selectedStaffIdDelete) 
+      return;
+    this.employeeserv.deleteUnit(this.selectedStaffIdDelete).subscribe({
       next: (res)=>{
         console.log('Delete response', res.message)
         // this.selectedStaffIdToDelete = null;
@@ -106,7 +109,42 @@ export class UnitComponent implements OnInit{
     })
   }
 
-  editrouter(){}
+ 
+selectedUnitId: string | null = null;
+selectedUnitPayload: any = null;
+
+selectedId(item: any) {
+  this.selectedUnitId = item._id;
+  this.selectedUnitPayload = { ...item,
+    unitHead: item.unitHead?._id || null,
+    parentUnit: item.parentUnit?._id || item.parentUnit || null,
+    organization: item.organization?._id || null,
+  };
+  console.log('Selected Unit ID:', this.selectedUnitId);
+}
+
+editUnit() {
+  // if (!this.selectedUnitId) return;
+
+  // this.employeeserv.updateUnit(this.selectedUnitId, this.selectedUnitPayload).subscribe({
+  //   next: () => {
+  //       // this.createNotification('topRight','success', 'Unit details updated successfully.','Updated!');
+  //     this.resetForm(form);
+  //   },
+  //   error: (err) => {
+  //     console.log('Update failed', err)
+  //       // this.createNotification('topRight','success', 'Edit unit failed','Failed!');
+  //   }
+  // });
+
+}
+
+
+resetForm(form: NgForm) {
+  form.resetForm();
+  this.selectedUnitId = null;
+  this.selectedUnitPayload = null;
+}
 
 
 
@@ -132,4 +170,6 @@ export class UnitComponent implements OnInit{
     })
    }
 
+
+ 
 }

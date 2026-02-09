@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, ElementRef, OnInit, QueryList, viewChild, ViewChild } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { CreateStaffModel } from '../../model/model';
+import { CreateStaffModel, searchQueryModel } from '../../model/model';
 import { GetEmployeesService } from '../../../service/get-employees.service';
 import { EducationModel } from '../../model/model';
 
@@ -18,19 +18,22 @@ export class AddstaffComponent implements OnInit{
 
   employeeData: CreateStaffModel
   isEditOpen = false
-  currentStep = 1;
+  currentStep: number = 1;
   totalSteps = 6;
   originalData: any = {}
   isMobileOpen = false
+  searchModel: searchQueryModel
+  employeesData: any[] = []
 
 
   @ViewChild('form') form!: NgForm;
 
 
-  constructor(private router: Router, private employeeService: GetEmployeesService){
+  constructor(private getEmployeesserv: GetEmployeesService, private router: Router, private employeeService: GetEmployeesService){
     this.employeeData = new CreateStaffModel() 
     this.employeeData = new CreateStaffModel();   
   // this.employeeData.educationDetails = [];
+  this.searchModel = new searchQueryModel()
 
     this.employeeData.children = [
     { fullName: '', dob: '', birthCertificateUrl: '' },
@@ -42,6 +45,36 @@ export class AddstaffComponent implements OnInit{
 ngOnInit() {
 
 }
+
+
+ fetchEmployees() {
+    // this.isLoading = true
+    this.getEmployeesserv.getaLLEmployees(this.searchModel).subscribe({
+      next: (res) => {
+        console.log('successful', res)
+        this.employeesData = res.data
+        console.log(res.message)
+        // this.isLoading = false
+      },
+      error: (err) => {
+        console.log('failed', err)
+        // this.isLoading = false
+      },
+      complete: () => {
+        console.log('Complete')
+      }
+    })
+  }
+
+ 
+
+completedSteps: boolean[] = [false, false, false, false, false, false];
+
+updateStepStatus(step: number, form: any) {
+  this.completedSteps[step - 1] = form.valid;
+}
+
+
 
 // Ascept only letters
   allowOnlyLetters(event: KeyboardEvent){
@@ -82,8 +115,8 @@ allowNumbersOnly(event: KeyboardEvent) {
       //  this.originalData = JSON.parse(JSON.stringify(this.selectedEmployee));
   }
 
-nextStep(){
-  if(this.currentStep < this.totalSteps){
+  nextStep(){
+   if(this.currentStep < this.totalSteps){
     this.currentStep++
     this.originalData = structuredClone(this.employeeData);
     //  this.selectedEmployee = JSON.parse(JSON.stringify(this.selectedEmployee));

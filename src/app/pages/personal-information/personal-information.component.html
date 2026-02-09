@@ -1,55 +1,43 @@
 
     <div class="container overflow- auto">
 
-   
-
-
-
-
   <div class="flex justify-between mx-2 md:mx-5 lg:mx-10 mt-10">
 
   <!-- Go Back -->
   <button (click)="goBack()"
-   class="text-sm bg-gray-100 py-1 px-4 rounded-[6px]">
+   class="text-[40px] md:text-sm bg-gray-100 py-1 px-4 rounded-[6px]">
     Go Back
   </button>
   
 
   <!-- Edit button -->
-  <button
+   <button
+    type="button"
     *ngIf="!isEditOpen"
-    (click)="openEdit()"
-    class="bg-gray-200 py-1 px-5 rounded-[6px] relative md:left-[4rem] lg:left-0"
+    (click)="onEditToggle()"
+    class="flex justify-center border border-[#727A90] text-[40px] md:text-[14px] text-[#727A90] px-3 py-1 rounded-[8px] hover:bg-gray-400 hover:text-white transition"
   >
-    Edit
-  </button>
+     <span class="material-symbols-outlined text-[50px] md:text-[20px]">edit</span>Edit
+  </button> 
 
   <!-- Step controls -->
   <div *ngIf="isEditOpen" class="flex gap-2">
-    <button
-      (click)="cancelEdit()"
-      class="text-white border rounded-[10px] bg-gray-500 py-1 px-4"
-    >
-      Cancel
-    </button>
-
-    <!-- Next button (not last step) -->
-    <button
-      *ngIf="currentStep < totalSteps"
-      (click)="nextStep()"
-      class="text-white border rounded-[10px] bg-blue-600 py-1 px-4"
-    >
-      Next
-    </button>
-
-    <!-- Save button (last step only) -->
-    <button
-      *ngIf="currentStep === totalSteps"
-      (click)="save()"
-      class="text-white border rounded-[10px] bg-green-700 py-1 px-4"
+    <button (click)="save(form)"
+      type="button"
+      
+      class="bg-green-600 text-[40px] md:text-sm text-white px-3 py-1 rounded-[8px] hover:bg-green-700 transition"
     >
       Save
     </button>
+  
+     <button (click)="onCancel()"
+      type="button"
+      
+      class=" bg-gray-400 text-[40px] md:text-sm text-white px-4  md:px-3 py-1 rounded-[8px] hover:bg-gray-500 transition"
+    >
+      Cancel
+    </button> 
+
   </div>
   </div>
 
@@ -70,13 +58,14 @@
     </div>
     </div>
 
+
     <div class="mx-2">
-    <div class="lg:hidden block">
-        <button (click)="openMobileMenu()" class="bg-blue-600">Menu</button>
+    <div class="lg:hidden block text-[40px]">
+        <button (click)="openMobileMenu()" class="bg-blue-600 text-white px-4 py-1">Menu</button>
     </div>
 
-    <div *ngIf="isMobileOpen" class="text-center lg:hidden block fixed z-10 bg-opacity-70 bg-black text-white">
-        <div class="flex flex-col h-full mt-6 w-[11rem] space-y-4 mb-4">
+    <div *ngIf="isMobileOpen" class="text-[45px] text-center lg:hidden block fixed z-10 bg-opacity-70 bg-black text-white">
+        <div class="flex flex-col h-full mt-6 w-[30rem] space-y-4 mb-4">
         <a (click)="setStep(1); closeMobileMenu()">Personal Information</a>
         <a (click)="setStep(2); closeMobileMenu()">Employement Details</a>
         <a (click)="setStep(3); closeMobileMenu()">Farmily Details</a>
@@ -88,23 +77,62 @@
     </div>
 
 
+    <!-- Forms -->
     <form #form="ngForm" class="container ">
 
-        <!-- Personal information details Step 1 -->
-        <div *ngIf="currentStep === 1" class="">
-            <!-- Details -->
-             <div class="flex">
-            <div class="bg-gray-300 mx-10 rounded-full w-[6rem] py-[2.2rem] text-center">
-                person
-            </div>
-            <div>
-                <p>{{selectedEmployee.firstName}} {{selectedEmployee.lastName}}</p>
-                <p class="text-[11px] px-1 text-green-700 bg-gray-100 font-bold">{{selectedEmployee.unit?.name}}</p>
-            </div>
+        <!-- Step 1 -->
+     <div *ngIf="currentStep === 1" class="">
+     
+              <!-- QRcode image -->
+       <div class="flex justify-end">
+          <img src="/QRCode.png" class="w-[83px] h-[86px]"> 
+       </div>
+
+
+  
+    <div class="mt- md:mt-[-6.5rem] relative">
+    
+      <div class="flex">
+      <!-- Image Preview -->
+     <div class="lg:col-span-2 flex flex-col items-cente mt-10">
+      <div class="relative w-[90px] [167px] h-[90px] [167px] mb-2">
+         
+        <div class="-32 h-24 rounded-full overflow-hidden bg-gray-200 flex items-center justify-center mt-[-25px]">
+          <img
+            *ngIf="selectedEmployee"
+            [src]="isValidUrl(selectedEmployee.profilePicture) ? selectedEmployee.profilePicture : '/Preview.png'"
+            alt="Profile Picture"
+            class="w-[120px] h-[120px] rounded-full object-cover border"
+          />
+
+          <div #savedImage>
+            <img
+              *ngIf="selectedEmployee?.profilePicture"
+              [src]="getSafeProfilePicture(selectedEmployee.profilePicture)"
+              alt="Saved Image"
+              class="h-full w-auto object-cover "
+            />
+          </div>
         </div>
+        </div>
+        </div>
+  
+      <div class="mt-6 mx-5 space-y-2">
+        <p class="font-semibold text-[#686868] font-outfit text-14px">
+          {{selectedEmployee?.firstName}} {{selectedEmployee?.lastName}}
+        </p>
+        <p class="bg-[#00765E17] text-[#00765E] font-bold text-[8.92px]">
+          {{selectedEmployee?.supervisor?.jobTitle}}
+        </p>
+        <p class="flex justify-center items-center bg-[#15C12924] text-[#26AB5B] text-[6.87px] rounded-[4.23px] w-[37.69px] h-[15.46px] border-2 border-[#26AB5B5C]">
+          {{selectedEmployee?.employmentStatus}}
+        </p>
+      </div>
+    </div>
+</div>
 
    <!-- form -->
-    <div class="mt-10 mb-10 mx-10 lg:mx-10 grid md:grid-cols-2 lg:grid-cols-3 lg:gap-x-5 gap-y-6">
+    <div class="mt-10 grid md:grid-cols-2 lg:grid-cols-3 lg:gap-x-5 gap-y-6 text-[50px] md:text-[16px]">
         <div class="flex flex-col">
         <label class="">First Name</label>
         <input
@@ -112,7 +140,8 @@
         name="firstName"
         [disabled]="!isEditOpen"
         [(ngModel)]="selectedEmployee.firstName"
-        class="border-2 py-1 md:w-[17rem] focus:outline-none focus:ring-2 focus:ring-blue-500"
+        (keypress)="allowOnlyLetters($event)"
+        class="border-2 px-5 md:px-2 md:py-1 md:w-[17rem] focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
         </div>
 
@@ -122,7 +151,9 @@
         type="text"
         name="lastName"
         [(ngModel)]="selectedEmployee.lastName"
-        class="border-2 py-1 md:w-[17rem] focus:outline-none focus:ring-2 focus:ring-blue-500"
+        [disabled]="!isEditOpen"
+        (keypress)="allowOnlyLetters($event)"
+        class="border-2 px-5 md:px-2 md:py-1 md:w-[17rem] focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
         </div>
 
@@ -132,7 +163,9 @@
         type="text"
         name="otherName"
         [(ngModel)]="selectedEmployee.otherName"
-        class="border-2  py-1 md:w-[17rem] focus:outline-none focus:ring-2 focus:ring-blue-500"
+        [disabled]="!isEditOpen"
+        (keypress)="allowOnlyLetters($event)"
+        class="border-2 px-5 md:px-2 py-1 md:w-[17rem] focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
         </div>
 
@@ -141,8 +174,9 @@
         <input
         type="date"
         name="dateOfBirth"
-        [(ngModel)]="selectedEmployee.dateOfBirth"
-        class="border-2 py-1 md:w-[17rem] focus:outline-none focus:ring-2 focus:ring-blue-500"
+        [(ngModel)]="formattedDOB"
+        [disabled]="!isEditOpen"
+        class="border-2 px-5 md:px-2 py-1 md:w-[17rem] focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
         </div>
 
@@ -151,7 +185,8 @@
         <select
         name="gender"
         [(ngModel)]="selectedEmployee.gender"
-        class="border-2 py-1 md:w-[17rem] focus:outline-none focus:ring-2 focus:ring-blue-500" 
+        [disabled]="!isEditOpen"
+        class="text-[40px] md:text-[16px] border-2 px-5 md:px-2 py-4 md:py-1 md:w-[17rem] focus:outline-none focus:ring-2 focus:ring-blue-500" 
         >
         <option value="">Select gender</option>
         <option value="Male">Male</option>
@@ -166,7 +201,9 @@
         type="text"
         name="nationality"
         [(ngModel)]="selectedEmployee.nationality"
-        class="border-2 py-1 md:w-[17rem] focus:outline-none focus:ring-2 focus:ring-blue-500"
+        [disabled]="!isEditOpen"
+        (keypress)="allowOnlyLetters($event)"
+        class="border-2 px-5 md:px-2 py-1 md:w-[17rem] focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
         </div>
 
@@ -175,7 +212,8 @@
         <select
         name="maritalStatus"
         [(ngModel)]="selectedEmployee.maritalStatus"
-        class="border-2 py-1 md:w-[17rem] focus:outline-none focus:ring-2 focus:ring-blue-500" 
+        [disabled]="!isEditOpen"
+        class="text-[40px] md:text-[16px] border-2 px-5 py-4 md:px-2 md:py-1 md:w-[17rem] focus:outline-none focus:ring-2 focus:ring-blue-500" 
         >
          <option value="">Select marital status</option>
          <option value="Single">Single</option>
@@ -190,7 +228,9 @@
         type="text"
         name="phoneNumber"
         [(ngModel)]="selectedEmployee.phoneNumber"
-        class="border-2 py-1 md:w-[17rem] focus:outline-none focus:ring-2 focus:ring-blue-500"
+        [disabled]="!isEditOpen"
+        (keypress)="allowNumbersOnly($event)"
+        class="border-2 py-1 md:w-[17rem] px-5 md:px-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
         </div>
 
@@ -200,7 +240,8 @@
         type="text"
         name="email"
         [(ngModel)]="selectedEmployee.email"
-        class="border-2 py-1 md:w-[17rem] focus:outline-none focus:ring-2 focus:ring-blue-500"
+        [disabled]="!isEditOpen"
+        class="border-2 px-5 md:px-2 py-1 md:w-[17rem] focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
         </div>
 
@@ -210,17 +251,20 @@
         type="text"
         name="idType"
         [(ngModel)]="selectedEmployee.idType"
-        class="border-2 py-1 md:w-[17rem] focus:outline-none focus:ring-2 focus:ring-blue-500"
+        [disabled]="!isEditOpen"
+        (keypress)="allowOnlyLetters($event)"
+        class="border-2 px-5 md:px-2 py-1 md:w-[17rem] focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
         </div>
 
-        <div class="flex flex-col">
+        <div class="flex flex-col mb-20 md:mb-10">
         <label class="">ID Number</label>
         <input
         type="text"
         name="idNumber"
         [(ngModel)]="selectedEmployee.idNumber"
-        class="border-2  py-1 md:w-[17rem] focus:outline-none focus:ring-2 focus:ring-blue-500"
+        [disabled]="!isEditOpen"
+        class="border-2 px-5 md:px-2 py-1 md:w-[17rem] focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
         </div>
 
@@ -243,18 +287,20 @@
      <div *ngIf="currentStep === 2">
     <!-- Details -->
      <div class="">
-         <p class="">Employment Details</p>
-         <p class="text-[10px]">Official job Information</p>   
+         <p class="text-[45px] md:text-[16px]">Employment Details</p>
+         <p class="md:text-[10px] text-[30px]">Official job Information</p>   
      </div>
 
         <!-- form -->
-    <div class="mb-10 grid md:grid-cols-2 lg:grid-cols-3 md:gap-x-[5rem] lg:gap-x-[5px] gap-y-6 mt-10">
+    <div class="mb-10 grid md:grid-cols-2 lg:grid-cols-3 md:gap-x-[5rem] lg:gap-x-[5px] gap-y-6 mt-10 text-[50px] md:text-[16px]">
         <div class="flex flex-col">
         <label class="mx- 10">Job Title</label>
         <input
         type="text"
         name="jobTitle"
         [(ngModel)]="selectedEmployee.jobTitle"
+        [disabled]="!isEditOpen"
+        (keypress)="allowOnlyLetters($event)"
         class="border-2 px-3 py-1 md:w-[17rem] focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
         </div>
@@ -265,6 +311,8 @@
         type="text"
         name="employmentType"
         [(ngModel)]="selectedEmployee.employmentType"
+        [disabled]="!isEditOpen"
+        (keypress)="allowOnlyLetters($event)"
         class="border-2 px-3 py-1 md:w-[17rem] focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
         </div>
@@ -285,6 +333,8 @@
         type="text"
         name="workLocation"
         [(ngModel)]="selectedEmployee.workLocation"
+        [disabled]="!isEditOpen"
+        (keypress)="allowOnlyLetters($event)"
         class="border-2 px-3 py-1 md:w-[17rem] focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
         </div>
@@ -295,14 +345,17 @@
         type="text"
         name="staffId"
         [(ngModel)]="selectedEmployee.staffId"
+        [disabled]="!isEditOpen"
         class="border-2 px-3 py-1 md:w-[17rem] focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
         </div>
 
          <!-- ROLE -->
-        <div>
-           <label class="text-[35px] md:text-[16px]">Role</label>
-          <select [(ngModel)]="selectedEmployee.role" name="role" 
+        <div class="flex flex-col">
+           <label class="text- [35px] md:text- [16px]">Role</label>
+          <select 
+          [(ngModel)]="selectedEmployee.role" name="role" 
+          [disabled]="!isEditOpen"
            class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
           required>
             <option value="">Select Role</option>
@@ -320,15 +373,15 @@
 
   <!-- Header -->
    <div class="flex justify-between">
-     <div class="">
-         <p class="">Family Details</p>
-         <p class="text-[10px]">Information for family-related benefit and records,</p>   
+     <div class="mt-32 md:mt-0">
+         <p class="text-[45px] md:text-[16px]">Family Details</p>
+         <p class="md:text-[10px] text-[30px]">Information for family-related benefit and records,</p>   
      </div> 
 
      <!-- Add more button -->
-    <div class="relative top-[-4rem] md:top-0 md:left-[7rem] lg:left-0 w-[8rem]">
+    <div class="relative md:top-0 md:left-[7rem] lg:left-0 w-[8rem] mx-5 lg:mx-0">
       <button (click)="addMore()" 
-      class="flex bg-blue-600 border text-white px-2 py-1 md:px-3 md:py-1 rounded-[6px] hover:bg-blue-400">
+      class="flex bg-blue-600 border text-[40px] md:text-sm text-white px-2 py-1 md:px-3 md:py-1 rounded-[6px] hover:bg-blue-400 whitespace-nowrap">
         Add more
       </button>
      </div>
@@ -338,20 +391,22 @@
   <div class="grid gap-y-6 mt-10 ">
 
     <!-- Spouse Details -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 lg:gap-[1rem] gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 lg:gap-[5rem] gap-6">
 
       <div class="flex flex-col">
-        <label class="md:w-[7rem]">Spouse's Name</label>
+        <label class="md:w-[7rem] text-[40px] md:text-[16px]">Spouse's Name</label>
         <input
           type="text"
           name="spouseName"
           [(ngModel)]="selectedEmployee.spouseName"
-          class="border-2 px-3 py-1 w-full md:w-[17rem] focus:outline-none focus:ring-2 focus:ring-blue-500"
+          [disabled]="!isEditOpen"
+          (keypress)="allowOnlyLetters($event)"
+          class="text-[40px] md:text-[16px] py-5 px-5 md:px-3 md:py-1 border-2 w-full md:w-[17rem] focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
 
         <div class="mt-6">
-          <p class="font-bold">Children Information</p>
-          <p class="text-sm md:md:w-[55rem] max-w-xl">
+          <p class="font-bold text-[40px] md:text-[16px] ">Children Information</p>
+          <p class="text-[30px] md:text-sm md:md:w-[55rem] max-w-xl">
             Based on the total number of children entered above,
             the same number of fields will appear below to enter
             each child's full details.
@@ -360,22 +415,25 @@
       </div>
 
       <div class="flex flex-col">
-        <label class="md:w-[12rem]">Spouse's Phone Number</label>
+        <label class="md:w-[12rem] text-[40px] md:text-[16px]">Spouse's Phone Number</label>
         <input
           type="text"
           name="spousePhone"
           [(ngModel)]="selectedEmployee.spousePhone"
-          class="border-2 px-3 py-1 w-full md:w-[17rem] focus:outline-none focus:ring-2 focus:ring-blue-500"
+          [disabled]="!isEditOpen"
+          (keypress)="allowNumbersOnly($event)"
+          class="text-[40px] md:text-[16px] border-2 py-5 px-5 md:px-3 md:py-1 w-full md:w-[17rem] focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
 
       <div class="flex flex-col">
-        <label>Spouse's Email</label>
+        <label class="text-[40px] md:text-[16px]">Spouse's Email</label>
         <input
           type="text"
           name="spouseEmail"
           [(ngModel)]="selectedEmployee.spouseEmail"
-          class="border-2 px-3 py-1 w-full md:w-[17rem] focus:outline-none focus:ring-2 focus:ring-blue-500"
+          [disabled]="!isEditOpen"
+          class="text-[40px] md:text-[16px] border-2 py-5 px-5 md:px-3 md:py-1 w-full md:w-[17rem] focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
 
@@ -383,27 +441,31 @@
 
     <!-- Number of Children -->
     <div class="flex flex-col md:w-[17rem]">
-      <label>Number of Children</label>
+      <label class="text-[40px] md:text-[16px]">Number of Children</label>
       <input
         type="text"
         name="numberOfChildren"
         [(ngModel)]="selectedEmployee.numberOfChildren"
-        class="border-2 px-3 py-1 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+        [disabled]="!isEditOpen"
+        (keypress)="allowNumbersOnly($event)"
+        class="text-[40px] md:text-[16px] border-2 py-5 px-5 md:px-3 md:py-1 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
     </div>
 
       
   <div *ngFor="let child of selectedEmployee.children; let i = index" 
-     class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+     class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
 
   <!-- Child Name -->
   <div class="flex flex-col relative">
-    <label>Child</label>
+    <label class="text-[40px] md:text-[16px]">Child</label>
     <input
       type="text"
       [name]="'fullName' + i"
       [(ngModel)]="child.fullName"
-      class="border-2 px-3 py-1 w-full md:w-[17rem] focus:outline-none focus:ring-2 focus:ring-blue-500"
+      [disabled]="!isEditOpen"
+      (keypress)="allowOnlyLetters($event)"
+      class="text-[40px] md:text-[16px] border-2 py-5 px-5 md:px-3 md:py-1 w-full md:w-[17rem] focus:outline-none focus:ring-2 focus:ring-blue-500"
     />
 
     <!-- Remove Button: only for children after first -->
@@ -411,7 +473,7 @@
       *ngIf="i >= 1"
       type="button"
       (click)="removeChild(i)"
-      class="border border-red-500 bg-red-100 text-red-600 text-sm rounded-[4px] hover:text-red-800 mt-2 w-24"
+      class="text-[40px] md:text-[16px] border border-red-500 bg-red-100 text-red-600 text-sm rounded-[4px] hover:text-red-800 mt-2 w-24"
     >
       Remove
     </button>
@@ -419,12 +481,12 @@
 
   <!-- Child DOB -->
   <div class="flex flex-col">
-    <label>Age</label>
+    <label class="text-[40px] md:text-[16px]">Age</label>
     <input
       type="date"
       [name]="'dob' + i"
       [(ngModel)]="child.dob"
-      class="border-2 px-3 py-1 w-full md:w-[17rem] focus:outline-none focus:ring-2 focus:ring-blue-500"
+      class="text-[40px] md:text-[16px] border-2 py-5 px-5 md:px-3 md:py-1 w-full md:w-[17rem] focus:outline-none focus:ring-2 focus:ring-blue-500"
     />
   </div>
 </div>
@@ -435,18 +497,20 @@
    <!-- Next of kins Step 4 -->     
   <div *ngIf="currentStep === 4">
       <div class="lg:mx-10">
-         <p class="">Next of Kin</p>
-         <p class="text-[10px]">Contact in case of emergency</p>   
+         <p class="text-[45px] md:text-[16px]">Next of Kin</p>
+         <p class="md:text-[10px] text-[30px]">Contact in case of emergency</p>   
      </div> 
 
      <div class="mt-10 lg:mx-10">
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 text-[50px] md:text-[16px]">
         <div class="flex flex-col">
         <label class="flex flex-col">Full Name</label>    
         <input
         type="text"
         name="nextOfKinFullName"
         [(ngModel)]="selectedEmployee.nextOfKinFullName"
+        [disabled]="!isEditOpen"
+        (keypress)="allowOnlyLetters($event)"
         class="border-2 py-1 w- md:w-[17rem] focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
         </div>
@@ -457,6 +521,8 @@
         type="text"
         name="nextOfKinRelationship"
         [(ngModel)]="selectedEmployee.nextOfKinRelationship"
+        [disabled]="!isEditOpen"
+        (keypress)="allowOnlyLetters($event)"
         class="border-2 py-1 md:w-[17rem] focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
         </div>
@@ -467,6 +533,8 @@
         type="text"
         name="nextOfKinPhoneNumber"
         [(ngModel)]="selectedEmployee.nextOfKinPhoneNumber"
+        [disabled]="!isEditOpen"
+        (keypress)="allowNumbersOnly($event)"
         class="border-2 py-1 md:w-[17rem] focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
         </div>
@@ -478,6 +546,7 @@
         type="text"
         name="nextOfKinEmail"
         [(ngModel)]="selectedEmployee.nextOfKinEmail"
+        [disabled]="!isEditOpen"
         class="border-2 py-1 md:w-[17rem] focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
         </div>
@@ -488,6 +557,7 @@
         type="text"
         name="nextOfKinCurrentAddress"
         [(ngModel)]="selectedEmployee.nextOfKinCurrentAddress"
+        [disabled]="!isEditOpen"
         class="border-2 py-1 md:w-[17rem] focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
         </div>
@@ -500,18 +570,20 @@
    <!-- Emengency contact Step 5 -->
   <div *ngIf="currentStep === 5">
     <div class="mx-10">
-         <p class="">Emergency Contact</p>
-         <p class="text-[10px]">Contact in case of emergency</p>   
+         <p class="text-[45px] md:text-[16px]">Emergency Contact</p>
+         <p class="md:text-[10px] text-[30px]">Contact in case of emergency</p>   
      </div> 
      <!-- form -->
      <div class="mt-10">
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 text-[50px] md:text-[16px]">
         <div class="flex flex-col">
         <label class="">Full Name</label>    
         <input
         type="text"
         name="emergencyContactFullName"
         [(ngModel)]="selectedEmployee.emergencyContactFullName"
+        [disabled]="!isEditOpen"
+        (keypress)="allowOnlyLetters($event)"
         class="border-2 py-1 md:w-[17rem] focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
         </div>
@@ -522,6 +594,8 @@
         type="text"
         name="emergencyContactRelationship"
         [(ngModel)]="selectedEmployee.emergencyContactRelationship"
+        [disabled]="!isEditOpen"
+        (keypress)="allowOnlyLetters($event)"
         class="border-2 py-1 md:w-[17rem] focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
         </div>
@@ -532,6 +606,8 @@
         type="text"
         name="emergencyContactPhoneNumber"
         [(ngModel)]="selectedEmployee.emergencyContactPhoneNumber"
+        [disabled]="!isEditOpen"
+        (keypress)="allowNumbersOnly($event)"
         class="border-2 py-1 md:w-[17rem] focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
         </div>
@@ -543,6 +619,7 @@
         type="text"
         name="emergencyContactEmail"
         [(ngModel)]="selectedEmployee.emergencyContactEmail"
+        [disabled]="!isEditOpen"
         class="border-2 py-1 md:w-[17rem] focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
         </div>
@@ -553,6 +630,7 @@
         type="text"
         name="emergencyContactCurrentAddress"
         [(ngModel)]="selectedEmployee.emergencyContactCurrentAddress"
+        [disabled]="!isEditOpen"
         class="border-2 py-1 md:w-[17rem] focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
         </div>
@@ -563,20 +641,23 @@
 
 
    <!-- Education details Step 6 -->
-   <div *ngIf="currentStep === 6" class="">
-     <div class="mx-10">
-         <p class="">Education Background</p>
-         <p class="text-[10px]">Academic and professional qualifications.</p>   
+   <div *ngIf="currentStep === 6" class="text-[50px] md:text-[16px]">
+     <div class="">
+         <p class="text-[45px] md:text-[16px]">Education Background</p>
+         <p class="md:text-[10px] text-[30px]">Academic and professional qualifications.</p>   
      </div>
 
-     <div *ngFor="let edu of selectedEmployee.educationDetails; let i = index" class="mt-10 mb-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-10">
+     <div *ngFor="let edu of selectedEmployee?.supervisor.educationDetails; let i = index" class="mt-10 mb-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-10">
+
         <div class="flex flex-col">
         <label class="">Institution Name</label>
         <input
         type="text"
         [name]="'institutionName' + i"
         [(ngModel)]="edu.institutionName"
-        class="border-2 py-1 md:w-[17rem] focus:outline-none focus:ring-2 focus:ring-blue-500 "
+        [disabled]="!isEditOpen"
+        (keypress)="allowOnlyLetters($event)"
+        class="border-2 px-2 py-1 md:w-[17rem] focus:outline-none focus:ring-2 focus:ring-blue-500 "
         >
         </div>
 
@@ -586,7 +667,9 @@
         type="text"
         [name]="'courseOfStudy' + i"
         [(ngModel)]="edu.courseOfStudy"
-        class="border-2 py-1 md:w-[17rem]focus:outline-none focus:ring-2 focus:ring-blue-500"
+        [disabled]="!isEditOpen"
+        (keypress)="allowOnlyLetters($event)"
+        class="border-2 px-2 py-1 md:w-[17rem] focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
         </div>
 
@@ -596,7 +679,8 @@
         type="date"
         [name]="'startDate' + i"
         [(ngModel)]="edu.startDate"
-        class="border-2 py-1 md:w-[17rem] focus:outline-none focus:ring-2 focus:ring-blue-500"
+        [disabled]="!isEditOpen"
+        class="border-2 px-2 py-1 md:w-[17rem] focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
         </div>
 
@@ -606,22 +690,14 @@
         type="date"
         [name]="'endDate' + i"
         [(ngModel)]="edu.endDate"
-        class="border-2 py-1 md:w-[17rem] focus:outline-none focus:ring-2 focus:ring-blue-500"
+        [disabled]="!isEditOpen"
+        class="border-2 px-2 py-1 md:w-[17rem] focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
         </div>
 
-        <!-- <div class="flex flex-col">
-        <label class="">Staff Id</label>
-        <input
-        type="text"
-        [name]="'staffId' + i"
-        [(ngModel)]="selectedEmployee.staffId"
-        class="border-2 py-1 md:w-[17rem]"
-        >
-        </div>  -->
      </div> 
   </div> 
-  
+
   
 </div>
 </form> 

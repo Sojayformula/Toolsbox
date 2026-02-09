@@ -1,4 +1,5 @@
-<div class="container">
+
+  <div class="container">
 
      <div class="flex justify-between mx-2 md:mx-5 lg:mx-10 mt-10">
 
@@ -45,7 +46,7 @@
 <!-- Links and forms container -->
 <div class="mainContainer lg:flex mt-10 md:mx-5 lg:mx-10 cursor-pointer">
 
-    <div class="hidden lg:block">
+    <!-- <div class="hidden lg:block">
     <div class="flex flex-col h-full mt-6 w-[11rem] space-y-4">
         <a (click)="setStep(1)">Personal Information</a>
         <a (click)="setStep(2)">Employement Details</a>
@@ -54,7 +55,63 @@
         <a (click)="setStep(5)">Emergency Contact</a>
         <a (click)="setStep(6)">Education Details</a>
     </div>
+    </div> -->
+
+
+    <div class="flex flex-col mt-6 space-y-4 w-44 whitespace-nowrap">
+  <div class="flex items-center space-x-2">
+    <div class="w-5 h-5 rounded-full border-2 border-dashed flex items-center justify-center transition-all"
+          [ngClass]="{'bg-green-500 border-green-500': completedSteps[0]}">
+           <span *ngIf="completedSteps[0]" class="text-white">✓</span>
     </div>
+    <a (click)="currentStep = 1">Personal Information</a>
+  </div>
+
+  <div class="flex items-center space-x-2">
+    <div class="w-5 h-5 rounded-full border-2 border-dashed flex items-center justify-center transition-all"
+          [ngClass]="{'border-green-500 bg-green-500 text-white' : completedSteps[1]}">
+          <span *ngIf="completedSteps[1]">✓</span>
+  </div>
+    <a (click)="currentStep = 2">Employment Details</a>
+  </div>
+
+  <div class="flex items-center space-x-2">
+    <div class="w-5 h-5 rounded-full border-2 border-dashed flex items-center justify-center transition-all"
+          [ngClass]="{'border-green-500 bg-green-500 text-white' : completedSteps[2]}">
+          <span *ngIf="completedSteps[2]">✓</span>
+  </div>
+    <a (click)="currentStep = 3">Farmily Details</a>
+  </div>
+
+   <div class="flex items-center space-x-2">
+    <div class="w-5 h-5 rounded-full border-2 border-dashed flex items-center justify-center transition-all"
+          [ngClass]="{'border-green-500 bg-green-500 text-white' : completedSteps[3]}">
+          <span *ngIf="completedSteps[3]">✓</span>
+  </div>
+    <a (click)="currentStep = 4">Next Of Kins</a>
+  </div>
+
+   <div class="flex items-center space-x-2">
+    <div class="w-5 h-5 rounded-full border-2 border-dashed flex items-center justify-center transition-all"
+          [ngClass]="{'border-green-500 bg-green-500 text-white' : completedSteps[4]}">
+          <span *ngIf="completedSteps[4]">✓</span>
+  </div>
+    <a (click)="currentStep = 5">Emergency Contact</a>
+  </div>
+
+   <div class="flex items-center space-x-2">
+    <div class="w-5 h-5 rounded-full border-2 border-dashed flex items-center justify-center transition-all"
+          [ngClass]="{'border-green-500 bg-green-500 text-white' : completedSteps[5]}">
+          <span *ngIf="completedSteps[5]">✓</span>
+  </div>
+    <a (click)="currentStep = 6">Education Details</a>
+  </div>
+
+  
+</div>
+
+
+
 
     <!-- Mobile menu button -->
     <div class="mx-2">
@@ -75,13 +132,13 @@
     </div>
     </div>
 
-
-    <form #form="ngForm" class="container">
+<!-- #form="ngForm" -->
+    <form  #addStaffForm="ngForm" class="container">
 
         <!-- Personal information details Step 1 -->
         <div *ngIf="currentStep === 1" class="">
             <!-- Details -->
-             <div class="flex mt-10 md:mt-6">
+             <div class="flex mt-10 md:mt-4">
             <div class="bg-gray-300 mx-10 rounded-full w-[6rem] py-[2.2rem] text-center">
                 person
             </div>
@@ -100,6 +157,7 @@
         name="firstName"
         [(ngModel)]="employeeData.firstName"
         (keypress)="allowOnlyLetters($event)"
+        (ngModelChange)="updateStepStatus(1, addStaffForm)"
         #firstName = 'ngModel'
         required
         class="border-2 py-4 md:py-1 px-4 md:w-[17rem] text-[35px] md:text-[16px]"
@@ -117,6 +175,7 @@
         name="lastName"
         [(ngModel)]="employeeData.lastName"
         (keypress)="allowOnlyLetters($event)"
+        (ngModelChange)="updateStepStatus(1, addStaffForm)"
         #lastName = 'ngModel'
         required
         class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
@@ -134,6 +193,7 @@
         name="otherName"
         [(ngModel)]="employeeData.otherName"
         (keypress)="allowOnlyLetters($event)"
+        (ngModelChange)="updateStepStatus(1, addStaffForm)"
         #otherName = 'ngModel'
         required
         class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
@@ -150,6 +210,7 @@
         type="date"
         name="dateOfBirth"
         [(ngModel)]="employeeData.dateOfBirth"
+        (ngModelChange)="updateStepStatus(1, addStaffForm)"
         #dateOfBirth = 'ngModel'
         required
         class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
@@ -165,6 +226,7 @@
         <select
         name="gender"
         [(ngModel)]="employeeData.gender"
+        (ngModelChange)="updateStepStatus(1, addStaffForm)"
         #gender = 'ngModel'
         required
         class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]" 
@@ -187,6 +249,7 @@
         name="nationality"
         [(ngModel)]="employeeData.nationality"
         (keypress)="allowOnlyLetters($event)"
+        (ngModelChange)="updateStepStatus(1, addStaffForm)"
         #nationality = 'ngModel'
         required
         class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
@@ -202,6 +265,7 @@
         <select
         name="maritalStatus"
         [(ngModel)]="employeeData.maritalStatus"
+        (ngModelChange)="updateStepStatus(1, addStaffForm)"
         #maritalStatus = 'ngModel'
         required
         class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]" 
@@ -224,6 +288,7 @@
         name="phoneNumber"
         [(ngModel)]="employeeData.phoneNumber"
         (keypress)="allowNumbersOnly($event)"
+        (ngModelChange)="updateStepStatus(1, addStaffForm)"
         #phoneNumber = 'ngModel'
         required
         class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
@@ -240,6 +305,7 @@
         type="text"
         name="email"
         [(ngModel)]="employeeData.email"
+        (ngModelChange)="updateStepStatus(1, addStaffForm)"
         #email = 'ngModel'
         required
         class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
@@ -256,6 +322,8 @@
         type="text"
         name="idType"
         [(ngModel)]="employeeData.idType"
+        (keypress)="allowOnlyLetters($event)"
+        (ngModelChange)="updateStepStatus(1, addStaffForm)"
         #idType = 'ngModel'
         required
         class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
@@ -272,6 +340,7 @@
         type="text"
         name="idNumber"
         [(ngModel)]="employeeData.idNumber"
+        (ngModelChange)="updateStepStatus(1, addStaffForm)"
         #idNumber = 'ngModel'
         required
         class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
@@ -297,8 +366,8 @@
 
 
     <!-- Employement details Step 2 -->
-    <div class="mx-10 mt-6">
-     <div *ngIf="currentStep === 2">
+    <div *ngIf="currentStep === 2" class="" >
+     
     <!-- Details -->
      <div class="mx-10">
          <p class="">Employment Details</p>
@@ -314,6 +383,7 @@
         name="jobTitle"
         [(ngModel)]="employeeData.jobTitle"
         (keypress)="allowOnlyLetters($event)"
+        (ngModelChange)="updateStepStatus(2, addStaffForm)"
         #jobTitle = 'ngModel'
         required
         class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
@@ -331,6 +401,7 @@
         name="employmentType"
         [(ngModel)]="employeeData.employmentType"
         (keypress)="allowOnlyLetters($event)"
+        (ngModelChange)="updateStepStatus(2, addStaffForm)"
         #employmentType = 'ngModel'
         required
         class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
@@ -347,6 +418,7 @@
         type="date"
         name="hireDate"
         [(ngModel)]="employeeData.hireDate"
+        (ngModelChange)="updateStepStatus(2, addStaffForm)"
         #hireDate = 'ngModel'
         required
         class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
@@ -364,6 +436,7 @@
         name="workLocation"
         [(ngModel)]="employeeData.workLocation"
         (keypress)="allowOnlyLetters($event)"
+        (ngModelChange)="updateStepStatus(2, addStaffForm)"
         #workLocation = 'ngModel'
         required
         class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
@@ -380,6 +453,7 @@
         type="text"
         name="staffId"
         [(ngModel)]="employeeData.staffId"
+        (ngModelChange)="updateStepStatus(2, addStaffForm)"
         #staffId = 'ngModel'
         required
         class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
@@ -393,7 +467,9 @@
           <!-- ROLE -->
         <div>
            <label class="text-[35px] md:text-[16px]">Role</label>
-          <select [(ngModel)]="employeeData.role" name="role" 
+          <select 
+          [(ngModel)]="employeeData.role" name="role" 
+          (ngModelChange)="updateStepStatus(2, addStaffForm)"
            class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
           required>
             <option value="">Select Role</option>
@@ -407,10 +483,10 @@
 
 
     <!-- Family details Step 3 -->
-  <div *ngIf="currentStep === 3" class="px-4 mb-10 md:px- 10">
+  <div *ngIf="currentStep === 3" class="px-4 mb-10 mx-5">
 
   <!-- Header -->
-   <div class="flex justify-between">
+   <div class="flex justify-between ">
      <div class="">
          <p class="">Family Details</p>
          <p class="text-[10px]">Information for family-related benefit and records,</p>   
@@ -438,6 +514,7 @@
           name="spouseName"
           [(ngModel)]="employeeData.spouseName"
           (keypress)="allowOnlyLetters($event)"
+          (ngModelChange)="updateStepStatus(3, addStaffForm)"
            #spouseName = 'ngModel'
            required
           class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 w-full md:w-[17rem]"
@@ -464,6 +541,7 @@
           name="spousePhone"
           [(ngModel)]="employeeData.spousePhone"
           (keypress)="allowNumbersOnly($event)"
+          (ngModelChange)="updateStepStatus(3, addStaffForm)"
           #spousePhone = 'ngModel'
           required
           class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 w-full md:w-[17rem]"
@@ -480,6 +558,7 @@
           type="text"
           name="spouseEmail"
           [(ngModel)]="employeeData.spouseEmail"
+          (ngModelChange)="updateStepStatus(3, addStaffForm)"
           #spouseEmail="ngModel"
           required
           class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 w-full md:w-[17rem]"
@@ -500,6 +579,7 @@
         name="numberOfChildren"
         [(ngModel)]="employeeData.numberOfChildren"
         (keypress)="allowNumbersOnly($event)"
+        (ngModelChange)="updateStepStatus(3, addStaffForm)"
         #numberOfChildren="ngModel"
         required
         class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 w-full"
@@ -523,6 +603,7 @@
       [name]="'fullName' + i"
       [(ngModel)]="child.fullName"
       (keypress)="allowOnlyLetters($event)"
+      (ngModelChange)="updateStepStatus(3, addStaffForm)"
       #fullName="ngModel"
       required
       class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 w-full md:w-[17rem]"
@@ -551,6 +632,7 @@
       [name]="'dob' + i"
       [(ngModel)]="child.dob"
       (keypress)="allowNumbersOnly($event)"
+      (ngModelChange)="updateStepStatus(3, addStaffForm)"
       #date="ngModel"
       required
       class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 w-full md:w-[17rem]"
@@ -569,12 +651,12 @@
 
    <!-- Next of kins Step 4 -->     
   <div *ngIf="currentStep === 4">
-      <div class="lg:mx-10">
+      <div class="lg:mx-10 ">
          <p class="">Next of Kin</p>
          <p class="text-[10px]">Contact in case of emergency</p>   
      </div> 
 
-     <div class="mt-10">
+     <div class="mt-10 mx-10">
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
         <div class="flex flex-col">
         <label class="text-[35px] md:text-[16px]">Full Name</label>    
@@ -583,6 +665,7 @@
         name="nextOfKinFullName"
         [(ngModel)]="employeeData.nextOfKinFullName"
         (keypress)="allowOnlyLetters($event)"
+        (ngModelChange)="updateStepStatus(4, addStaffForm)"
         #nextOfKinFullName="ngModel"
         required
         class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
@@ -600,6 +683,7 @@
         name="nextOfKinRelationship"
         [(ngModel)]="employeeData.nextOfKinRelationship"
         (keypress)="allowOnlyLetters($event)"
+        (ngModelChange)="updateStepStatus(4, addStaffForm)"
         #nextOfKinRelationship="ngModel"
         required
         class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
@@ -617,6 +701,7 @@
         name="nextOfKinPhoneNumber"
         [(ngModel)]="employeeData.nextOfKinPhoneNumber"
         (keypress)="allowNumbersOnly($event)"
+        (ngModelChange)="updateStepStatus(4, addStaffForm)"
         #nextOfKinPhoneNumber="ngModel"
         required
         class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
@@ -634,6 +719,7 @@
         type="text"
         name="nextOfKinEmail"
         [(ngModel)]="employeeData.nextOfKinEmail"
+        (ngModelChange)="updateStepStatus(4, addStaffForm)"
         #nextOfKinEmail="ngModel"
         required
         class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
@@ -650,6 +736,7 @@
         type="text"
         name="nextOfKinCurrentAddress"
         [(ngModel)]="employeeData.nextOfKinCurrentAddress"
+        (ngModelChange)="updateStepStatus(4, addStaffForm)"
         #nextOfKinCurrentAddress = 'ngModel'
         required
         class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
@@ -672,7 +759,7 @@
          <p class="text-[10px]">Contact in case of emergency</p>   
      </div> 
      <!-- form -->
-     <div class="mt-10">
+     <div class="mt-10 mx-10">
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div class="flex flex-col">
         <label class="text-[35px] md:text-[16px]">Full Name</label>    
@@ -681,6 +768,7 @@
         name="emergencyContactFullName"
         [(ngModel)]="employeeData.emergencyContactFullName"
         (keypress)="allowOnlyLetters($event)"
+        (ngModelChange)="updateStepStatus(5, addStaffForm)"
         #emergencyContactFullName = 'ngModel'
         required 
         class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
@@ -698,6 +786,7 @@
         name="emergencyContactRelationship"
         [(ngModel)]="employeeData.emergencyContactRelationship"
         (keypress)="allowOnlyLetters($event)"
+        (ngModelChange)="updateStepStatus(5, addStaffForm)"
         #emergencyContactRelationship = 'ngModel'
         required
         class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
@@ -715,6 +804,7 @@
         name="emergencyContactPhoneNumber"
         [(ngModel)]="employeeData.emergencyContactPhoneNumber"
         (keypress)="allowNumbersOnly($event)"
+        (ngModelChange)="updateStepStatus(5, addStaffForm)"
         #emergencyContactPhoneNumber = 'ngModel'
         required
         class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
@@ -732,6 +822,7 @@
         type="text"
         name="emergencyContactEmail"
         [(ngModel)]="employeeData.emergencyContactEmail"
+        (ngModelChange)="updateStepStatus(5, addStaffForm)"
         #emergencyContactEmail = 'ngModel'
         required
         class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
@@ -748,6 +839,7 @@
         type="text"
         name="emergencyContactCurrentAddress"
         [(ngModel)]="employeeData.emergencyContactCurrentAddress"
+        (ngModelChange)="updateStepStatus(5, addStaffForm)"
         #emergencyContactCurrentAddress = 'ngModel'
         required
         class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
@@ -770,7 +862,7 @@
          <p class="text-[10px]">Academic and professional qualifications.</p>   
      </div>
 
-     <div *ngFor="let edu of employeeData.educationDetails; let i = index" class="mt-10 mb-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+     <div *ngFor="let edu of employeeData.educationDetails; let i = index" class="mx-10 mt-10 mb-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div class="flex flex-col">
         <label class="text-[35px] md:text-[16px]">Institution Name</label>
         <input
@@ -778,6 +870,7 @@
         [name]="'institutionName' + i"
         [(ngModel)]="edu.institutionName"
         (keypress)="allowOnlyLetters($event)"
+        (ngModelChange)="updateStepStatus(6, addStaffForm)"
         class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
         >
         </div>
@@ -789,6 +882,7 @@
         [name]="'courseOfStudy' + i"
         [(ngModel)]="edu.courseOfStudy"
         (keypress)="allowOnlyLetters($event)"
+        (ngModelChange)="updateStepStatus(6, addStaffForm)"
         class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
         >
         </div>
@@ -799,6 +893,7 @@
         type="date"
         [name]="'startDate' + i"
         [(ngModel)]="edu.startDate"
+        (ngModelChange)="updateStepStatus(6, addStaffForm)"
         class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
         >
         </div>
@@ -810,6 +905,7 @@
         [name]="'institutionName' + i"
         [(ngModel)]="edu.institutionName"
         (keypress)="allowOnlyLetters($event)"
+        (ngModelChange)="updateStepStatus(6, addStaffForm)"
         class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
         >
         </div>
@@ -820,7 +916,7 @@
         type="date"
         [name]="'endDate' + i"
         [(ngModel)]="edu.endDate"
-        (keypress)="allowNumbersOnly($event)"
+        (ngModelChange)="updateStepStatus(6, addStaffForm)"
         class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
         >
         </div>
@@ -831,7 +927,7 @@
         type="date"
         [name]="'startDate' + i"
         [(ngModel)]="edu.startDate"
-        (keypress)="allowNumbersOnly($event)"
+        (ngModelChange)="updateStepStatus(6, addStaffForm)"
         class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
         >
         </div>
@@ -842,6 +938,7 @@
         type="text"
         name="staffId"
         [(ngModel)]="employeeData.staffId"
+        (ngModelChange)="updateStepStatus(6, addStaffForm)"
         class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
         >
         </div>
@@ -849,7 +946,7 @@
      </div>
   </div>
 
-</div>
+<!-- </div> -->
 </form> 
 </div>
 </div>

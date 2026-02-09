@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { CreateStaffModel, EducationModel, employeesModel, searchQueryModel } from '../app/model/model';
 import { CreateUnitPayload, SearchQueryModel, UnitHeadModel } from '../app/model/unit';
 import { UserRole } from '../app/model/userRowModel';
+import { editStaffModel } from '../app/model/editStaff';
 
 @Injectable({
   providedIn: 'root'
@@ -87,6 +88,11 @@ export class GetEmployeesService {
     return this.http.post(`${environment.baseUrl}/staff/create-staff`, payload)
   }
 
+  // Edit staff
+      editUser( Id: string, payload: editStaffModel): Observable<any> {
+    return this.http.patch(`${environment.baseUrl}/staff/${Id}`, payload);
+  }
+
   // create unit service
    createUnit(payload: CreateUnitPayload):Observable<any>{
     return this.http.post(`${environment.baseUrl}/unit/create-unit`, payload)
@@ -97,12 +103,17 @@ export class GetEmployeesService {
     return this.http.delete(`${environment.baseUrl}/unit/delete-unit/${id}`)
   }
 
+  // Edit unit
+    editUnit(id: string):Observable<any>{
+    return this.http.delete(`${environment.baseUrl}unit/update-unit/${id}`)
+  }
+
     submitEducation(staffId: string, education: EducationModel[]): Observable<any> {
     const payload = { staffId, educationDetails: education };
     return this.http.post(`${environment.baseUrl}/staff/create-staff${staffId}`, payload);
   }
 
-  // tTo chang user role
+  // To change user role
   assignRole(userId: string, role: UserRole) {
   return this.http.put(`/api/users/${userId}/role`, { role });
 }

@@ -125,10 +125,10 @@
 
      
       <!-- Delete modal -->
-       <div *ngIf="deleteModal">
+       <!-- <div *ngIf="deleteModal"> -->
         <!-- <button (click)="closeDeleteModal()">close</button> -->
 
-         <div class="flex justify-end space-x-3">
+         <!-- <div class="flex justify-end space-x-3">
       <button
         type="button"
         (click)="deleteStaff()"
@@ -145,7 +145,44 @@
       </button>
     </div>
 
-       </div>
+       </div> -->
+
+       <!-- Delete Modal -->
+ <div *ngIf="deleteModal" (click)="closeDeleteModal()" class="bg-black/50 fixed inset-0 ">
+    <div class="flex justify-center mt-[15rem]">
+      <div class=" bg-white w-[25rem] h-[15rem] rounded-[10px]">
+          <div class="flex justify-center mt-6 font-bold">
+            Delete unit?
+          </div>
+
+          <div class="flex justify-center relative top-[10px]">
+          <div class="flex justify-center items-center bg-red-100 rounded-full w-10 h-10">
+           <span  class="material-symbols-outlined fle x  justify-center text-red-600 text-[25px]">
+               delete
+           </span>
+          </div>
+        </div>
+
+        <div class="mt-5">
+          <div class="flex justify-center mx-10">
+            Are you sure you want to delete this unit? 
+            This action cannot be undone.
+           </div>
+           <div class="flex gap-2 justify-end mt-8 mx-5">
+              <button (click)="closeDeleteModal()"
+             class="bg-gray-600 text-white rounded px-4 py-1">
+             Cancel
+            </button>
+
+             <button 
+             class="bg-red-500 text-white rounded-4 px-4 py-1">
+             Delete
+            </button>
+           </div>
+        </div>
+      </div> 
+    </div>
+ </div>
 
 
 

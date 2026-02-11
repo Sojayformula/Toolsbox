@@ -460,16 +460,16 @@
       <div class="flex flex-col">
         <label class="text-[35px] md:text-[16px] md:w-[12rem]">Spouse's Phone Number</label>
         <input
-          type="text"
+          type="number" 
           name="spousePhone"
           [(ngModel)]="employeeData.spousePhone"
-          (keypress)="allowNumbersOnly($event)"
+         
           #spousePhone = 'ngModel'
           required
           class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 w-full md:w-[17rem]"
         />
 
-        <p *ngIf="spousePhone.invalid && (spousePhone.touched || spousePhone.dirty)" class="text-[38px] md:text-[16px] text-red-500 text-sm">
+        <p *ngIf="spousePhone.invalid && (spousePhone.touched || spousePhone.dirty)" class="text-[38px] md:text-sm text-red-500 text-sm">
           Spouse phone number is required
         </p>
       </div>
@@ -485,7 +485,7 @@
           class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 w-full md:w-[17rem]"
         />
 
-          <p *ngIf="spouseEmail.invalid && (spouseEmail.touched || spouseEmail.dirty)" class="text-[38px] md:text-[16px] text-red-500 text-sm">
+          <p *ngIf="spouseEmail.invalid && (spouseEmail.touched || spouseEmail.dirty)" class="text-[38px] md:text-sm text-red-500 text-sm">
           Spouse email is required
         </p>
       </div>
@@ -505,7 +505,7 @@
         class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 w-full"
       />
 
-        <p *ngIf="numberOfChildren.invalid && (numberOfChildren.touched || numberOfChildren.dirty)" class="text-[38px] md:text-[16px] text-red-500 text-sm">
+        <p *ngIf="numberOfChildren.invalid && (numberOfChildren.touched || numberOfChildren.dirty)" class="text-[38px] md:text-sm text-red-500 text-sm">
           Number of children is required
         </p>
     </div>
@@ -528,7 +528,7 @@
       class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 w-full md:w-[17rem]"
     />
 
-      <p *ngIf="fullName.invalid && (fullName.touched || fullName.dirty)" class="text-[38px] md:text-[16px] text-red-500 text-sm">
+      <p *ngIf="fullName.invalid && (fullName.touched || fullName.dirty)" class="text-[38px] md:text-sm text-red-500 text-sm">
           Child full name is required
         </p>
 
@@ -556,7 +556,7 @@
       class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 w-full md:w-[17rem]"
     />
 
-    <p *ngIf="date.invalid && (date.touched || date.dirty)" class="text-[38px] md:text-[16px] text-red-500 text-sm">
+    <p *ngIf="date.invalid && (date.touched || date.dirty)" class="text-[38px] md:text-sm text-red-500 text-sm">
           Date is required
         </p>
   </div>
@@ -588,7 +588,7 @@
         class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
         >
 
-        <p *ngIf="nextOfKinFullName.invalid && (nextOfKinFullName.touched || nextOfKinFullName.dirty)" class="text-[38px] md:text-[16px] text-red-500 text-sm">
+        <p *ngIf="nextOfKinFullName.invalid && (nextOfKinFullName.touched || nextOfKinFullName.dirty)" class="text-[38px] md:text-sm text-red-500 text-sm">
           Next of kin full name is required
         </p>
         </div>
@@ -622,7 +622,7 @@
         class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
         >
 
-        <p *ngIf="nextOfKinPhoneNumber.invalid && (nextOfKinPhoneNumber.touched || nextOfKinPhoneNumber.dirty)" class="text-[38px] md:text-[16px] text-red-500 text-sm">
+        <p *ngIf="nextOfKinPhoneNumber.invalid && (nextOfKinPhoneNumber.touched || nextOfKinPhoneNumber.dirty)" class="text-[38px] md:text-sm text-red-500 text-sm">
           Next of kin phone number is required
         </p>
         </div>
@@ -655,7 +655,7 @@
         class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
         >
 
-        <p *ngIf="nextOfKinCurrentAddress.invalid && (nextOfKinCurrentAddress.touched || nextOfKinCurrentAddress.dirty)" class="text-[38px] md:text-[16px] text-red-500 text-sm">
+        <p *ngIf="nextOfKinCurrentAddress.invalid && (nextOfKinCurrentAddress.touched || nextOfKinCurrentAddress.dirty)" class="text-[38px] md:text-sm text-red-500 text-sm">
           Next of kin current address is required
         </p>
         </div>
@@ -686,7 +686,7 @@
         class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
         >
 
-        <p *ngIf="emergencyContactFullName.invalid && (emergencyContactFullName.touched || emergencyContactFullName.dirty)" class="text-[38px] md:text-[16px] text-red-500 text-sm">
+        <p *ngIf="emergencyContactFullName.invalid && (emergencyContactFullName.touched || emergencyContactFullName.dirty)" class="text-[38px] md:text-sm text-red-500 text-sm">
           Full name is required
         </p>
         </div>
@@ -703,7 +703,7 @@
         class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
         >
 
-        <p *ngIf="emergencyContactRelationship.invalid && (emergencyContactRelationship.touched || emergencyContactRelationship.dirty)" class="text-[38px] md:text-[16px] text-red-500 text-sm">
+        <p *ngIf="emergencyContactRelationship.invalid && (emergencyContactRelationship.touched || emergencyContactRelationship.dirty)" class="text-[38px] md:text-sm text-red-500 text-sm">
           Relationship is required
         </p>
         </div>
@@ -720,7 +720,7 @@
         class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
         >
 
-        <p *ngIf="emergencyContactPhoneNumber.invalid && (emergencyContactPhoneNumber.touched || emergencyContactPhoneNumber.dirty)" class="text-[38px] md:text-[16px] text-red-500 text-sm">
+        <p *ngIf="emergencyContactPhoneNumber.invalid && (emergencyContactPhoneNumber.touched || emergencyContactPhoneNumber.dirty)" class="text-[38px] md:text-sm text-red-500 text-sm">
           Phone number is required
         </p>
         </div>
@@ -737,7 +737,7 @@
         class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
         >
 
-        <p *ngIf="emergencyContactEmail.invalid && (emergencyContactEmail.touched || emergencyContactEmail.dirty)" class="text-[38px] md:text-[16px] text-red-500 text-sm">
+        <p *ngIf="emergencyContactEmail.invalid && (emergencyContactEmail.touched || emergencyContactEmail.dirty)" class="text-[38px] md:text-sm text-red-500 text-sm">
           Email is required
         </p>
         </div>
@@ -753,7 +753,7 @@
         class="border-2 py-4 px-4 text-[35px] md:text-[16px] md:py-1 md:w-[17rem]"
         >
 
-        <p *ngIf="emergencyContactCurrentAddress.invalid && (emergencyContactCurrentAddress.touched || emergencyContactCurrentAddress.dirty)" class="text-[38px] md:text-[16px] text-red-500 text-sm">
+        <p *ngIf="emergencyContactCurrentAddress.invalid && (emergencyContactCurrentAddress.touched || emergencyContactCurrentAddress.dirty)" class="text-[38px] md:text-sm text-red-500 text-sm">
           Current address is required
         </p>
         </div>

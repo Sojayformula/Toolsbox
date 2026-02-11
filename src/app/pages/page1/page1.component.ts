@@ -51,10 +51,16 @@ export class Page1Component implements OnInit{
   // this.employeesModelData
   fetchEmployees() {
     this.isLoading = true
+    const targetId = '6984b7d9176b88292a12aa67';
     this.getEmployeesserv.getaLLEmployees(this.searchModel).subscribe({
       next: (res) => {
         console.log('successful', res)
         this.employeesData = res.data
+        // Show one user
+        // this.employeesData = res.data?.slice(0, 2) || []; 
+        // show one particular user
+        //  this.employeesData = res.data?.filter((emp: any) => emp._id === targetId) || [];
+
         console.log(res.message)
         this.isLoading = false
       },

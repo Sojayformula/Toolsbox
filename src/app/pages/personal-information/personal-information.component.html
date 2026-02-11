@@ -97,9 +97,12 @@
             <div class="bg-gray-300 mx-10 rounded-full w-[6rem] py-[2.2rem] text-center">
                 person
             </div>
-            <div>
+            <div class="space-y-2">
                 <p>{{selectedEmployee.firstName}} {{selectedEmployee.lastName}}</p>
                 <p class="text-[11px] px-1 text-green-700 bg-gray-100 font-bold">{{selectedEmployee.unit?.name}}</p>
+                  <p class="flex justify-center items-center bg-[#15C12924] text-[#26AB5B] text-[10.87px] rounded-[4.23px] w-[47.69px] h-[15.46px] border-2 border-[#26AB5B5C] whitespace-nowrap">
+                    {{selectedEmployee?.employmentType}}
+                  </p>
             </div>
         </div>
 

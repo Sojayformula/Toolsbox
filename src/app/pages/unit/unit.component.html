@@ -125,26 +125,25 @@
 
      
       <!-- Delete modal -->
-       <!-- <div *ngIf="deleteModal">
+       <div *ngIf="deleteModal">
 
          <div class="flex justify-end space-x-3">
-      <button
+      <!-- <button
         type="button"
         (click)="deleteStaff()"
         class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
       >
         Delete
-      </button>
+      </button> -->
       <button
         type="button"
-        (click)="()"
         class="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400"
       >
         Cancel
       </button>
     </div>closeDeleteModal
+       </div>
 
-       </div> -->
  <!-- Delete Modal -->
  <div *ngIf="deleteModal" (click)="closeDeleteModal()" class="bg-black/50 fixed inset-0 ">
     <div class="flex justify-center mt-[15rem]">

@@ -303,9 +303,11 @@ export class CRMToolsComponent {
 
   
     onSubmit(){
+      // this.enrolMerchantModel.email = this.emails;
       this.crmservice.getCreateMerchant(this.enrolMerchantModel).subscribe({
         next:(res)=>{
           console.log('Erol merchant respone', res.message)
+          this.fetchTools()
         },
         error:(err)=>{
           console.log('Post faild', err.message)

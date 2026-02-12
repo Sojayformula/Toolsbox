@@ -440,10 +440,10 @@
                         <div
                         class="rounded px-3 py-1 text-xs w-fi text-center"
                         [ngClass]="{
-                        'bg-[#B61E002B] border-[2px] border- [#B61E00] text-[#B61E00] w-[73px] h-[25px] rounded-lg': ticket.priority === 'HIGH',
-                        'bg-[#FFBF4024] border-2 border-[#FFBF405c] text-[#FFBF40] w-[70px] h-[24px] rounded-[8px]': ticket.priority === 'MEDIUM',
+                        'bg-[#B61E002B] border-[0.1rem] border-[#B61E00] text-[#B61E00] w-[73px] h-[26px] rounded-lg': ticket.priority === 'HIGH',
+                        'bg-[#FFBF4024] border-[0.2rem] border-[#FFBF405c] text-[#FFBF40] w-[69px] flex justify-center items-center h-[24px] rounded-[8px]': ticket.priority === 'MEDIUM',
                         'bg-[#00B69B2B] border-2 border-[#00B69B] text-[#00B69B] w-[70px] h-[25px] rounded-[8px]': ticket.priority === 'LOW',
-                        'bg-[#7C3AED2B] border-2 border- [#7C3AED] text-[#7C3AED] w-[72px] h-[26px] rounded-[8px]': ticket.priority === 'CRITICAL',
+                        'bg-[#7C3AED2B] border-[2px] border- [#7C3AED] text-[#7C3AED] w-[72px] h-[26px] rounded-[8px]': ticket.priority === 'CRITICAL',
                         }"
                         >
                           {{ticket.priority}}
@@ -471,9 +471,9 @@
                         <div
                          class="rounded px-3 py-1 text-xs text-center"
                          [ngClass]="{
-                        'bg-[#B61E002B] border-[2px] border-[#B61E00] text-[#B61E00] w-[73px] h-[25px] rounded-lg': ticket.status === 'OPEN',
+                        'bg-[#B61E002B] border-[2px] border-[#B61E00] text-[#B61E00] w-[73px] h-[26px] rounded-lg': ticket.status === 'OPEN',
                         'bg-[#FFBF4024] border-2 border-[#FFBF405c] text-[#FFBF40] w-[70px] h-[24px] rounded-[8px]': ticket.status === 'CLOSE',
-                        'bg-[#00B69B2B] border-2 border-[#00B69B] text-[#00B69B] w-[70px] h-[25px] rounded-[8px]': ticket.status === 'ESCALATED',
+                        'bg-[#00B69B2B] border-2 border-[#00B69B] text-[#00B69B] flex justify-center w-[70px] h-[26px] rounded-[8px]': ticket.status === 'ESCALATED',
                         }"
                         >
                           {{ticket.status}}

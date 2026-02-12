@@ -161,7 +161,7 @@ deleteUserTicket(Id: string):Observable<any>{
 
   // create merchant
 getCreateMerchant(payload: EnrolMerchantModel):Observable<any>{
-  return this.http.post(`${CRMEnvironment.crmbaseUrl}/create-merchant`, payload)
+  return this.http.post(`${CRMEnvironment.crmbaseUrl}/fundgate-merchant/create-merchant`, payload)
 }
 
 

@@ -141,4 +141,8 @@ removeChild(index: number){
   this.selectedEmployee.children.splice(index, 1)
 }
 
+clone(){
+  this.router.navigate(['/signin'])
+}
+
 }
